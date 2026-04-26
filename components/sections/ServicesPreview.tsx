@@ -22,7 +22,7 @@ export default function ServicesPreview() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#fff' }}>
       <Container maxWidth="xl">
         <SectionHeading
           eyebrow="What We Do"
@@ -109,24 +109,10 @@ export default function ServicesPreview() {
                               fontSize: '0.85rem',
                               color: 'text.secondary',
                               lineHeight: 1.7,
-                              mb: 2,
                             }}
                           >
                             {service.shortDescription}
                           </Typography>
-                          {service.startingPrice && (
-                            <Typography
-                              sx={{
-                                fontFamily: 'Cinzel, serif',
-                                fontSize: '0.68rem',
-                                letterSpacing: '0.1em',
-                                color: 'gold.dark',
-                                textTransform: 'uppercase',
-                              }}
-                            >
-                              From {service.startingPrice}
-                            </Typography>
-                          )}
                         </Box>
                       </Box>
                     </Link>

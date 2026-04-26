@@ -75,7 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontFamily: "'Inter', sans-serif",
           margin: 0,
           padding: 0,
-          backgroundColor: '#EBF5FB',
+          backgroundColor: '#FAF8F5',
         }}
       >
         <ThemeRegistry>

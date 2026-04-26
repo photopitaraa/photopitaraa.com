@@ -121,19 +121,6 @@ function ServiceCard({ service, reverse }: { service: Service; reverse?: boolean
             <AnimatedButton variant="filled" href="/contact">
               Enquire Now
             </AnimatedButton>
-            {service.startingPrice && (
-              <Typography
-                sx={{
-                  fontFamily: 'Cinzel, serif',
-                  fontSize: '0.72rem',
-                  letterSpacing: '0.1em',
-                  color: 'text.secondary',
-                  textTransform: 'uppercase',
-                }}
-              >
-                From {service.startingPrice}
-              </Typography>
-            )}
           </Box>
         </Grid>
       </Grid>
@@ -166,7 +153,7 @@ export default function ServicesPage() {
       </Box>
 
       {/* Services list */}
-      <Box sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="xl">
           {services.map((service, i) => (
             <ServiceCard key={service.slug} service={service} reverse={i % 2 !== 0} />
@@ -175,12 +162,12 @@ export default function ServicesPage() {
       </Box>
 
       {/* Quick nav cards */}
-      <Box py={{ xs: 8, md: 10 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 8, md: 10 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="xl">
           <SectionHeading
             eyebrow="Quick Enquiry"
             title="Not Sure What You Need?"
-            subtitle="Tell us about your event and we'll suggest the right package — no obligation, just honest advice."
+            subtitle="Tell us about your event and we'll suggest the right coverage — no obligation, just honest advice."
           />
           <GoldDivider my={6} />
           <Box sx={{ textAlign: 'center' }}>

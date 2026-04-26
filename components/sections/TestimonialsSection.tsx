@@ -21,7 +21,10 @@ export default function TestimonialsSection() {
     <Box
       component="section"
       py={{ xs: 10, md: 14 }}
-      sx={{ backgroundColor: '#EBF5FB' }}
+      sx={{
+        backgroundColor: '#fff',
+        backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(33,158,188,0.1), transparent 55%)',
+      }}
     >
       <Container maxWidth="xl">
         <SectionHeading
@@ -36,11 +39,15 @@ export default function TestimonialsSection() {
           sx={{
             mb: 10,
             p: { xs: 5, md: 8 },
-            backgroundColor: '#023047',
-            borderRadius: '8px',
+            backgroundColor: 'rgba(1,18,35,0.78)',
+            backdropFilter: 'blur(20px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(150%)',
+            border: '1px solid rgba(255,183,3,0.22)',
+            borderRadius: '10px',
             textAlign: 'center',
             position: 'relative',
             overflow: 'hidden',
+            boxShadow: '0 28px 64px rgba(1,18,35,0.2)',
           }}
         >
           <FormatQuote

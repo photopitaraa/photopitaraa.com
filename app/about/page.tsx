@@ -104,7 +104,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Founder story — split layout */}
-      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 6, md: 10 }} alignItems="center">
             <Grid item xs={12} md={5}>
@@ -179,7 +179,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Timeline */}
-      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="lg">
           <SectionHeading
             eyebrow="Our Journey"
@@ -309,7 +309,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Press strip */}
-      <Box py={{ xs: 6, md: 8 }} sx={{ backgroundColor: '#EBF5FB', borderTop: '1px solid rgba(255,183,3,0.15)' }}>
+      <Box py={{ xs: 6, md: 8 }} sx={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(255,183,3,0.15)' }}>
         <Container maxWidth="xl">
           <Typography
             variant="overline"

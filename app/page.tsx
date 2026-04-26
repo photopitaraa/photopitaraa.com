@@ -1,11 +1,5 @@
 import type { Metadata } from 'next';
-import HeroSection from '@/components/sections/HeroSection';
-import FeaturedGallery from '@/components/sections/FeaturedGallery';
-import WhyChooseUs from '@/components/sections/WhyChooseUs';
-import ServicesPreview from '@/components/sections/ServicesPreview';
-import TestimonialsSection from '@/components/sections/TestimonialsSection';
-import InstagramGrid from '@/components/sections/InstagramGrid';
-import CTABanner from '@/components/sections/CTABanner';
+import HomePage from '@/components/landing/HomePage';
 import { siteConfig } from '@/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -18,16 +12,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  return (
-    <>
-      <HeroSection />
-      <FeaturedGallery />
-      <WhyChooseUs />
-      <ServicesPreview />
-      <TestimonialsSection />
-      <InstagramGrid />
-      <CTABanner />
-    </>
-  );
+export default function Page() {
+  return <HomePage />;
 }

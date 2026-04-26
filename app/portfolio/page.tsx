@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
@@ -13,24 +14,31 @@ import CTABanner from '@/components/sections/CTABanner';
 import { galleryItems, galleryCategories, type GalleryCategory } from '@/data/gallery';
 import { scaleIn } from '@/lib/motion';
 
-export default function PortfolioPage() {
+function PortfolioInner() {
+  const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('All');
   const [lightboxIndex, setLightboxIndex] = useState(-1);
   const [lightboxImages, setLightboxImages] = useState<{ src: string; alt: string }[]>([]);
+
+  useEffect(() => {
+    const raw = searchParams.get('category');
+    if (raw && galleryCategories.includes(raw as GalleryCategory)) {
+      setActiveCategory(raw as GalleryCategory);
+    }
+  }, [searchParams]);
 
   const filtered =
     activeCategory === 'All'
       ? galleryItems
       : galleryItems.filter((g) => g.category === activeCategory);
 
-  const openLightbox = (item: typeof galleryItems[0]) => {
+  const openLightbox = (item: (typeof galleryItems)[0]) => {
     setLightboxImages(item.images.map((src) => ({ src, alt: item.title })));
     setLightboxIndex(0);
   };
 
   return (
     <>
-      {/* Hero */}
       <Box
         sx={{
           pt: { xs: 16, md: 20 },
@@ -40,7 +48,10 @@ export default function PortfolioPage() {
           overflow: 'hidden',
         }}
       >
-        <Box aria-hidden="true" sx={{ position: 'absolute', inset: 0, backgroundImage: 'url(/noise.png)', backgroundSize: '200px', opacity: 0.04 }} />
+        <Box
+          aria-hidden="true"
+          sx={{ position: 'absolute', inset: 0, backgroundImage: 'url(/noise.png)', backgroundSize: '200px', opacity: 0.04 }}
+        />
         <Container maxWidth="xl">
           <SectionHeading
             eyebrow="Portfolio"
@@ -51,8 +62,15 @@ export default function PortfolioPage() {
         </Container>
       </Box>
 
-      {/* Filter tabs */}
-      <Box sx={{ backgroundColor: '#EBF5FB', borderBottom: '1px solid rgba(255,183,3,0.15)', position: 'sticky', top: 64, zIndex: 100 }}>
+      <Box
+        sx={{
+          backgroundColor: '#FAF8F5',
+          borderBottom: '1px solid rgba(2,48,71,0.08)',
+          position: 'sticky',
+          top: 56,
+          zIndex: 100,
+        }}
+      >
         <Container maxWidth="xl">
           <Tabs
             value={activeCategory}
@@ -81,8 +99,7 @@ export default function PortfolioPage() {
         </Container>
       </Box>
 
-      {/* Masonry grid */}
-      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="xl">
           <AnimatePresence mode="wait">
             <motion.div
@@ -101,7 +118,6 @@ export default function PortfolioPage() {
                   animate="visible"
                   style={{ breakInside: 'avoid', marginBottom: 16 }}
                 >
-                  {/* Card */}
                   <Box
                     sx={{
                       position: 'relative',
@@ -147,7 +163,6 @@ export default function PortfolioPage() {
                     </Box>
                   </Box>
 
-                  {/* Link to single story if it's a wedding */}
                   {item.story && (
                     <Box sx={{ mt: 1, px: 0.5 }}>
                       <Link href={`/portfolio/${item.slug}`}>
@@ -184,5 +199,19 @@ export default function PortfolioPage() {
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.97)' } }}
       />
     </>
+  );
+}
+
+export default function PortfolioPage() {
+  return (
+    <Suspense
+      fallback={
+        <Box sx={{ minHeight: '70vh', bgcolor: '#FAF8F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Typography color="text.secondary">Loading portfolio…</Typography>
+        </Box>
+      }
+    >
+      <PortfolioInner />
+    </Suspense>
   );
 }

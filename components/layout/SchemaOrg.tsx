@@ -30,7 +30,6 @@ export default function SchemaOrg() {
         telephone: siteConfig.phone,
         email: siteConfig.email,
         image: `${siteConfig.url}/og-image.jpg`,
-        priceRange: '₹₹₹',
         address: {
           '@type': 'PostalAddress',
           streetAddress: siteConfig.address.line1,

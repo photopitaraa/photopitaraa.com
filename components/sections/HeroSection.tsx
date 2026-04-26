@@ -5,21 +5,18 @@ import { Box, Container, Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import AnimatedButton from '@/components/ui/AnimatedButton';
+import HeroVideoBackdrop from '@/components/ui/HeroVideoBackdrop';
 import { fadeUp, staggerContainer } from '@/lib/motion';
 
-const heroImages = [
-  '/images/hero-1.jpg',
-  '/images/hero-2.jpg',
-  '/images/hero-3.jpg',
-];
+const heroPhotos = ['/images/hero-1.jpg', '/images/hero-2.jpg', '/images/hero-3.jpg'];
 
 export default function HeroSection() {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [photoSlide, setPhotoSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((s) => (s + 1) % heroImages.length);
-    }, 5000);
+      setPhotoSlide((s) => (s + 1) % heroPhotos.length);
+    }, 6000);
     return () => clearInterval(timer);
   }, []);
 
@@ -36,8 +33,10 @@ export default function HeroSection() {
         alignItems: 'center',
       }}
     >
-      {/* Background image slider */}
-      {heroImages.map((src, i) => (
+      <HeroVideoBackdrop poster={heroPhotos[0]} />
+
+      {/* Subtle photo wash — references stills over motion */}
+      {heroPhotos.map((src, i) => (
         <Box
           key={src}
           aria-hidden="true"
@@ -47,31 +46,25 @@ export default function HeroSection() {
             backgroundImage: `url(${src})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            transition: 'opacity 1.4s ease',
-            opacity: currentSlide === i ? 1 : 0,
-            transform: 'scale(1.04)',
-            animation: currentSlide === i ? 'kenBurns 5s ease-in-out forwards' : 'none',
-            '@keyframes kenBurns': {
-              from: { transform: 'scale(1.04)' },
-              to: { transform: 'scale(1)' },
-            },
+            transition: 'opacity 1.8s ease',
+            opacity: photoSlide === i ? 0.14 : 0,
+            mixBlendMode: 'luminosity',
+            zIndex: 0,
           }}
         />
       ))}
 
-      {/* Gradient overlay */}
       <Box
         aria-hidden="true"
         sx={{
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to right, rgba(2,30,50,0.72) 0%, rgba(2,30,50,0.35) 60%, transparent 100%)',
+            'linear-gradient(120deg, rgba(17,17,17,0.88) 0%, rgba(17,17,17,0.52) 48%, rgba(17,17,17,0.18) 100%)',
           zIndex: 1,
         }}
       />
 
-      {/* Grain texture overlay */}
       <Box
         aria-hidden="true"
         sx={{
@@ -79,24 +72,26 @@ export default function HeroSection() {
           inset: 0,
           backgroundImage: 'url(/noise.png)',
           backgroundSize: '200px',
-          opacity: 0.06,
+          opacity: 0.07,
           zIndex: 2,
           pointerEvents: 'none',
         }}
       />
 
-      {/* Content */}
-      <Container
-        maxWidth="xl"
-        sx={{ position: 'relative', zIndex: 3, pt: { xs: 12, md: 0 } }}
-      >
-        <Box sx={{ maxWidth: { xs: '100%', md: '65%', lg: '55%' } }}>
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-          >
-            {/* Eyebrow */}
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 3, pt: { xs: 12, md: 0 } }}>
+        <Box
+          sx={{
+            maxWidth: { xs: '100%', md: '58%', lg: '48%' },
+            p: { md: 4 },
+            borderRadius: { md: 2 },
+            backgroundColor: { md: 'rgba(17,17,17,0.45)' },
+            backdropFilter: { md: 'blur(18px) saturate(140%)' },
+            WebkitBackdropFilter: { md: 'blur(18px) saturate(140%)' },
+            border: { md: '1px solid rgba(200,164,106,0.22)' },
+            boxShadow: { md: '0 24px 80px rgba(0,0,0,0.25)' },
+          }}
+        >
+          <motion.div variants={staggerContainer} initial="hidden" animate="visible">
             <motion.div variants={fadeUp}>
               <Typography
                 variant="overline"
@@ -104,60 +99,57 @@ export default function HeroSection() {
                   display: 'block',
                   color: 'gold.main',
                   fontSize: '0.68rem',
-                  letterSpacing: '0.25em',
+                  letterSpacing: '0.28em',
                   mb: 3,
                 }}
               >
-                Award-Winning Wedding Photography · Mumbai
+                Photography · Mumbai &amp; beyond
               </Typography>
             </motion.div>
 
-            {/* Headline */}
             <motion.div variants={fadeUp}>
               <Typography
                 variant="h1"
                 sx={{
-                  fontSize: { xs: '2.6rem', sm: '3.4rem', md: '4.5rem', lg: '5.5rem' },
-                  color: '#EBF5FB',
-                  lineHeight: 1.08,
+                  fontSize: { xs: '2.5rem', sm: '3.2rem', md: '4.2rem', lg: '5rem' },
+                  color: 'text.primary',
+                  lineHeight: 1.06,
                   mb: 3,
+                  fontWeight: 600,
                   '& em': {
                     fontStyle: 'italic',
                     color: 'gold.light',
                   },
                 }}
               >
-                Capturing Moments
+                Timeless stories
                 <br />
-                That <em>Last Forever</em>
+                in <em>moving light</em>
               </Typography>
             </motion.div>
 
-            {/* Subtitle */}
             <motion.div variants={fadeUp}>
               <Typography
                 sx={{
                   fontFamily: 'Inter, sans-serif',
-                  fontSize: { xs: '1rem', md: '1.1rem' },
-                  color: 'rgba(235,245,251,0.75)',
-                  lineHeight: 1.8,
+                  fontSize: { xs: '1rem', md: '1.08rem' },
+                  color: 'rgba(248,248,248,0.72)',
+                  lineHeight: 1.85,
                   mb: 5,
-                  maxWidth: 480,
+                  maxWidth: 440,
                 }}
               >
-                Your wedding day moves fast. Let&apos;s make sure nothing slips away —
-                not the light through the drapes, not the moment before the music starts.
+                Editorial wedding photography with room to breathe — we chase honest frames, not poses.
               </Typography>
             </motion.div>
 
-            {/* CTAs */}
             <motion.div variants={fadeUp}>
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <AnimatedButton variant="filled" href="/contact">
-                  Book Your Date
+                  Get in touch
                 </AnimatedButton>
                 <AnimatedButton variant="outlined" href="/portfolio">
-                  View Our Work
+                  View work
                 </AnimatedButton>
               </Stack>
             </motion.div>
@@ -165,27 +157,26 @@ export default function HeroSection() {
         </Box>
       </Container>
 
-      {/* Slide dots */}
       <Box
         aria-hidden="true"
         sx={{
           position: 'absolute',
-          bottom: 80,
-          right: { xs: 24, md: 48 },
+          bottom: 88,
+          right: { xs: 20, md: 40 },
           zIndex: 3,
           display: 'flex',
           flexDirection: 'column',
           gap: 1,
         }}
       >
-        {heroImages.map((_, i) => (
+        {heroPhotos.map((_, i) => (
           <Box
             key={i}
-            onClick={() => setCurrentSlide(i)}
+            onClick={() => setPhotoSlide(i)}
             sx={{
               width: 2,
-              height: currentSlide === i ? 28 : 12,
-              backgroundColor: currentSlide === i ? 'gold.main' : 'rgba(255,255,255,0.4)',
+              height: photoSlide === i ? 28 : 12,
+              backgroundColor: photoSlide === i ? 'gold.main' : 'rgba(255,255,255,0.35)',
               borderRadius: 2,
               cursor: 'pointer',
               transition: 'all 0.4s ease',
@@ -194,7 +185,6 @@ export default function HeroSection() {
         ))}
       </Box>
 
-      {/* Scroll indicator */}
       <Box
         aria-hidden="true"
         component={motion.div}
@@ -206,7 +196,7 @@ export default function HeroSection() {
           left: '50%',
           transform: 'translateX(-50%)',
           zIndex: 3,
-          color: 'rgba(255,255,255,0.5)',
+          color: 'rgba(255,255,255,0.45)',
         }}
       >
         <KeyboardArrowDown sx={{ fontSize: 32 }} />

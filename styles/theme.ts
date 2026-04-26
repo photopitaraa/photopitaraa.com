@@ -2,70 +2,73 @@ import { createTheme, alpha } from '@mui/material/styles';
 
 declare module '@mui/material/styles' {
   interface Palette {
-    gold: {
-      main: string;
-      light: string;
-      dark: string;
-      contrastText: string;
-    };
+    gold: { main: string; light: string; dark: string; contrastText: string };
     ivory: { main: string };
     blush: { main: string };
     charcoal: string;
+    surface: { elevated: string; modal: string };
+    wine: { main: string };
   }
   interface PaletteOptions {
-    gold?: {
-      main: string;
-      light: string;
-      dark: string;
-      contrastText?: string;
-    };
+    gold?: { main: string; light?: string; dark?: string; contrastText?: string };
     ivory?: { main: string };
     blush?: { main: string };
     charcoal?: string;
+    surface?: { elevated?: string; modal?: string };
+    wine?: { main: string };
   }
 }
 
-const AMBER       = '#FFB703';
-const AMBER_LIGHT = '#FFD060';
-const AMBER_DARK  = '#FB8500';
-const CERULEAN    = '#219EBC';
-const PRUSSIAN    = '#023047';
-const ICE         = '#EBF5FB';
-const SKY         = '#8ECAE6';
+// ── Core palette (from CSS variables) ────────────────────────────────────────
+const BG          = '#111111';   // --bg
+const SURFACE     = '#1E1E1E';   // --surface
+const TEXT        = '#F8F8F8';   // --text
+const MUTED       = '#BDBDBD';   // --muted
+const ACCENT      = '#C8A46A';   // --accent
+const ACCENT_SOFT = '#D7B28A';   // --accent-soft
+const ROMANTIC    = '#D9A8A1';   // --romantic
+
+// ── Derived tokens ────────────────────────────────────────────────────────────
+const ACCENT_BRIGHT = '#E8CAAA'; // lighter accent for shimmer / highlights
+const ACCENT_DIM    = '#8A6535'; // deeper accent for borders, muted gold use
+const SURFACE_2     = '#252525'; // modal / secondary elevated surface
+const BORDER        = '#2A2A2A'; // subtle dark dividers
 
 export const theme = createTheme({
   palette: {
-    mode: 'light',
+    mode: 'dark',
     primary: {
-      main: CERULEAN,
-      light: SKY,
-      dark: PRUSSIAN,
-      contrastText: '#fff',
+      main: ACCENT,
+      light: ACCENT_SOFT,
+      dark: ACCENT_DIM,
+      contrastText: BG,
     },
     secondary: {
-      main: AMBER,
-      light: AMBER_LIGHT,
-      dark: AMBER_DARK,
-      contrastText: PRUSSIAN,
+      main: ROMANTIC,
+      light: ACCENT_SOFT,
+      dark: ACCENT_DIM,
+      contrastText: TEXT,
     },
     background: {
-      default: ICE,
-      paper: '#FFFFFF',
+      default: BG,
+      paper: SURFACE,
     },
     text: {
-      primary: PRUSSIAN,
-      secondary: '#2E6B8A',
+      primary: TEXT,
+      secondary: MUTED,
     },
     gold: {
-      main: AMBER,
-      light: AMBER_LIGHT,
-      dark: AMBER_DARK,
-      contrastText: PRUSSIAN,
+      main: ACCENT,
+      light: ACCENT_BRIGHT,
+      dark: ACCENT_DIM,
+      contrastText: BG,
     },
-    ivory: { main: ICE },
-    blush: { main: SKY },
-    charcoal: PRUSSIAN,
-    divider: alpha(CERULEAN, 0.2),
+    ivory:   { main: TEXT },
+    blush:   { main: ROMANTIC },
+    charcoal: SURFACE_2,
+    surface:  { elevated: SURFACE, modal: SURFACE_2 },
+    wine:    { main: ROMANTIC },
+    divider: alpha(ACCENT, 0.15),
   },
   typography: {
     fontFamily: 'Inter, sans-serif',
@@ -145,9 +148,7 @@ export const theme = createTheme({
       fontSize: '0.7rem',
     },
   },
-  shape: {
-    borderRadius: 4,
-  },
+  shape: { borderRadius: 4 },
   spacing: 8,
   components: {
     MuiCssBaseline: {
@@ -155,18 +156,18 @@ export const theme = createTheme({
         *, *::before, *::after { box-sizing: border-box; }
         html { scroll-behavior: auto; }
         body {
-          background-color: ${ICE};
-          color: ${PRUSSIAN};
+          background-color: ${BG};
+          color: ${TEXT};
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
           overflow-x: hidden;
         }
         ::selection {
-          background: ${alpha(AMBER, 0.3)};
-          color: ${PRUSSIAN};
+          background: ${alpha(ACCENT, 0.35)};
+          color: ${BG};
         }
         :focus-visible {
-          outline: 2px solid ${CERULEAN};
+          outline: 2px solid ${ACCENT};
           outline-offset: 3px;
         }
         img { max-width: 100%; }
@@ -190,22 +191,22 @@ export const theme = createTheme({
           '&:active': { transform: 'scale(0.97)' },
         },
         containedPrimary: {
-          background: `linear-gradient(135deg, ${PRUSSIAN} 0%, ${CERULEAN} 50%, ${SKY} 100%)`,
+          background: `linear-gradient(135deg, ${ACCENT_DIM} 0%, ${ACCENT} 50%, ${ACCENT_SOFT} 100%)`,
           backgroundSize: '200% 100%',
           backgroundPosition: '100% 0',
-          color: '#fff',
+          color: BG,
           '&:hover': {
             backgroundPosition: '0% 0',
           },
         },
         outlinedPrimary: {
-          borderColor: CERULEAN,
-          color: CERULEAN,
+          borderColor: ACCENT,
+          color: ACCENT,
           borderWidth: '1.5px',
           '&:hover': {
-            borderColor: PRUSSIAN,
-            color: PRUSSIAN,
-            backgroundColor: alpha(CERULEAN, 0.06),
+            borderColor: ACCENT_SOFT,
+            color: ACCENT_SOFT,
+            backgroundColor: alpha(ACCENT, 0.08),
             borderWidth: '1.5px',
           },
         },
@@ -224,12 +225,14 @@ export const theme = createTheme({
       defaultProps: { elevation: 0 },
       styleOverrides: {
         root: {
-          border: `1px solid ${alpha(CERULEAN, 0.15)}`,
+          background: SURFACE,
+          border: `1px solid ${BORDER}`,
           borderRadius: 8,
           overflow: 'hidden',
-          transition: 'box-shadow 0.35s ease, transform 0.35s ease',
+          transition: 'box-shadow 0.35s ease, transform 0.35s ease, border-color 0.35s ease',
           '&:hover': {
-            boxShadow: `0 12px 48px ${alpha(PRUSSIAN, 0.12)}`,
+            borderColor: alpha(ACCENT, 0.4),
+            boxShadow: `0 12px 48px ${alpha(ACCENT, 0.08)}`,
           },
         },
       },
@@ -252,11 +255,11 @@ export const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             fontFamily: 'Inter, sans-serif',
             borderRadius: 4,
-            '& fieldset': { borderColor: alpha(PRUSSIAN, 0.2) },
-            '&:hover fieldset': { borderColor: CERULEAN },
-            '&.Mui-focused fieldset': { borderColor: CERULEAN },
+            '& fieldset': { borderColor: BORDER },
+            '&:hover fieldset': { borderColor: alpha(ACCENT, 0.5) },
+            '&.Mui-focused fieldset': { borderColor: ACCENT },
           },
-          '& .MuiInputLabel-root.Mui-focused': { color: CERULEAN },
+          '& .MuiInputLabel-root.Mui-focused': { color: ACCENT },
         },
       },
     },
@@ -264,15 +267,13 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: 'Inter, sans-serif',
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: CERULEAN },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: ACCENT },
         },
       },
     },
     MuiDivider: {
       styleOverrides: {
-        root: {
-          borderColor: alpha(CERULEAN, 0.2),
-        },
+        root: { borderColor: BORDER },
       },
     },
     MuiTooltip: {
@@ -280,7 +281,8 @@ export const theme = createTheme({
         tooltip: {
           fontFamily: 'Poppins, sans-serif',
           fontSize: '0.75rem',
-          backgroundColor: PRUSSIAN,
+          backgroundColor: SURFACE_2,
+          border: `1px solid ${BORDER}`,
           borderRadius: 4,
         },
       },
@@ -288,15 +290,17 @@ export const theme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
+          background: SURFACE_2,
           borderRadius: 12,
-          boxShadow: `0 24px 80px ${alpha(PRUSSIAN, 0.25)}`,
+          border: `1px solid ${BORDER}`,
+          boxShadow: `0 24px 80px ${alpha(BG, 0.8)}`,
         },
       },
     },
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: alpha(PRUSSIAN, 0.85),
+          backgroundColor: alpha(BG, 0.9),
           backdropFilter: 'blur(4px)',
         },
       },
@@ -305,9 +309,9 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 4,
-          backgroundColor: alpha(AMBER, 0.15),
+          backgroundColor: alpha(ACCENT, 0.12),
         },
-        bar: { backgroundColor: AMBER },
+        bar: { backgroundColor: ACCENT },
       },
     },
   },

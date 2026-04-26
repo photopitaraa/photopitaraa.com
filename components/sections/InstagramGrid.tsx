@@ -9,8 +9,9 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import { siteConfig } from '@/data/siteConfig';
 import { scaleIn, staggerContainer } from '@/lib/motion';
+import { picsumUrl, SHOWCASE_DUMMY_SEEDS } from '@/lib/mediaPlaceholders';
 
-const igImages = [
+const localIg = [
   { src: '/images/wedding-1.jpg', alt: 'Wedding ceremony' },
   { src: '/images/prewedding-1.jpg', alt: 'Pre-wedding shoot' },
   { src: '/images/wedding-3.jpg', alt: 'Couple portrait' },
@@ -19,17 +20,24 @@ const igImages = [
   { src: '/images/birthday-1.jpg', alt: 'Birthday celebration' },
 ];
 
+const extraIg = SHOWCASE_DUMMY_SEEDS.slice(0, 12).map((seed, i) => ({
+  src: picsumUrl(seed, 640, 640),
+  alt: `Behind the scenes ${i + 1}`,
+}));
+
+const igImages = [...localIg, ...extraIg];
+
 export default function InstagramGrid() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
       <Container maxWidth="xl">
         <SectionHeading
           eyebrow="@photopitaara"
-          title="Follow Our Journey"
-          subtitle="Real moments from real celebrations — unfiltered stories from our Instagram."
+          title="On the gram"
+          subtitle="A wider feed of frames — real celebrations and placeholder tiles you can replace with exports."
         />
         <GoldDivider my={6} />
 
@@ -41,11 +49,11 @@ export default function InstagramGrid() {
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 8,
+            gap: 6,
           }}
         >
           {igImages.map((img, i) => (
-            <motion.div key={i} variants={scaleIn}>
+            <motion.div key={`${img.src}-${i}`} variants={scaleIn}>
               <Box
                 component="a"
                 href={siteConfig.social.instagram}
@@ -58,24 +66,25 @@ export default function InstagramGrid() {
                   position: 'relative',
                   aspectRatio: '1',
                   overflow: 'hidden',
-                  borderRadius: '4px',
+                  borderRadius: '2px',
                   '&:hover .ig-overlay': { opacity: 1 },
-                  '&:hover img': { transform: 'scale(1.07)' },
+                  '&:hover img': { transform: 'scale(1.06)' },
                 }}
               >
                 <Image
                   src={img.src}
                   alt={img.alt}
                   fill
-                  sizes="(max-width: 768px) 33vw, 20vw"
-                  style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
+                  sizes="(max-width: 768px) 33vw, 18vw"
+                  style={{ objectFit: 'cover', transition: 'transform 0.55s ease' }}
                 />
                 <Box
                   className="ig-overlay"
                   sx={{
                     position: 'absolute',
                     inset: 0,
-                    backgroundColor: 'rgba(2,30,50,0.45)',
+                    backgroundColor: 'rgba(1,18,35,0.42)',
+                    backdropFilter: 'blur(2px)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

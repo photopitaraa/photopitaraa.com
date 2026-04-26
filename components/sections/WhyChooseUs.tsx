@@ -13,8 +13,10 @@ import {
 } from '@mui/icons-material';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
+import AmbientVideoLayer from '@/components/ui/AmbientVideoLayer';
 import { siteConfig } from '@/data/siteConfig';
 import { fadeUp, staggerContainer } from '@/lib/motion';
+import { PLACEHOLDER_VIDEOS } from '@/lib/mediaPlaceholders';
 
 const reasons = [
   {
@@ -117,6 +119,16 @@ export default function WhyChooseUs() {
         overflow: 'hidden',
       }}
     >
+      <AmbientVideoLayer src={PLACEHOLDER_VIDEOS[2]} opacity={0.22} blurPx={18} scale={1.2} />
+      <Box
+        aria-hidden="true"
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(180deg, rgba(1,18,35,0.92) 0%, rgba(2,48,71,0.88) 100%)',
+          zIndex: 0,
+        }}
+      />
       <Box
         aria-hidden="true"
         sx={{
@@ -124,12 +136,13 @@ export default function WhyChooseUs() {
           inset: 0,
           backgroundImage: 'url(/noise.png)',
           backgroundSize: '180px',
-          opacity: 0.035,
+          opacity: 0.04,
           pointerEvents: 'none',
+          zIndex: 0,
         }}
       />
 
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         <SectionHeading
           eyebrow="Why Photo Pitaara"
           title="We Don't Just Photograph. We Bear Witness."
@@ -164,11 +177,13 @@ export default function WhyChooseUs() {
                       height: '100%',
                       border: '1px solid rgba(255,183,3,0.15)',
                       borderRadius: '6px',
-                      backgroundColor: 'rgba(255,255,255,0.03)',
+                      backgroundColor: 'rgba(255,255,255,0.05)',
+                      backdropFilter: 'blur(12px)',
+                      WebkitBackdropFilter: 'blur(12px)',
                       transition: 'border-color 0.3s ease, background-color 0.3s ease',
                       '&:hover': {
                         borderColor: 'rgba(255,183,3,0.4)',
-                        backgroundColor: 'rgba(255,183,3,0.04)',
+                        backgroundColor: 'rgba(255,183,3,0.07)',
                       },
                     }}
                   >

@@ -188,7 +188,7 @@ export default function BlogPostPage({ params }: Props) {
       </Box>
 
       {/* Article content */}
-      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="lg">
           {/* Back link */}
           <Link href="/blog">

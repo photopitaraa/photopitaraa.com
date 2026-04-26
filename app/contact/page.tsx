@@ -121,7 +121,7 @@ export default function ContactPage() {
       </Box>
 
       {/* Split layout: form + info */}
-      <Box py={{ xs: 8, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+      <Box py={{ xs: 8, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 6, md: 10 }}>
             {/* Form */}

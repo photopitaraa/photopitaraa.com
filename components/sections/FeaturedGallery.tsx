@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Image from 'next/image';
 import { Box, Container, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -10,29 +10,44 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import Badge from '@/components/ui/Badge';
-import { galleryItems } from '@/data/gallery';
+import { galleryItems, type GalleryItem } from '@/data/gallery';
+import { showcaseExtraTiles } from '@/data/showcaseExtras';
 import { scaleIn, staggerContainer } from '@/lib/motion';
 import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 
-const featured = galleryItems.slice(0, 6);
+const extras = showcaseExtraTiles.slice(0, 16);
+const featured: GalleryItem[] = [
+  ...galleryItems,
+  ...extras.map(
+    (t): GalleryItem => ({
+      id: t.id,
+      slug: t.id,
+      title: t.title,
+      category: t.category,
+      location: t.location,
+      date: t.date,
+      coverImage: t.coverImage,
+      images: t.images,
+      width: t.width,
+      height: t.height,
+    })
+  ),
+];
 
 export default function FeaturedGallery() {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
-  const slides = featured.flatMap((item) =>
-    item.images.map((src) => ({ src, alt: item.title }))
-  );
+  const slides = featured.flatMap((item) => item.images.map((src) => ({ src, alt: item.title })));
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#EBF5FB' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
       <Container maxWidth="xl">
         <SectionHeading
-          eyebrow="Our Portfolio"
-          title="Stories We've Told"
-          subtitle="Each gallery is a chapter. Scroll through the moments that made families stop, breathe, and say — yes, that's exactly how it felt."
+          eyebrow="Featured"
+          title="Weddings & celebrations we've held close"
+          subtitle="A living wall of recent work — tap any frame. Dates and places sit where credits would on a film still."
         />
         <GoldDivider my={6} />
 
@@ -43,24 +58,28 @@ export default function FeaturedGallery() {
           animate={inView ? 'visible' : 'hidden'}
           style={{
             columns: '3',
-            columnGap: '16px',
+            columnGap: '12px',
           }}
         >
           {featured.map((item, idx) => (
             <motion.div
               key={item.id}
               variants={scaleIn}
-              style={{ breakInside: 'avoid', marginBottom: 16, cursor: 'pointer' }}
-              onClick={() => setLightboxIndex(idx)}
+              style={{ breakInside: 'avoid', marginBottom: 12, cursor: 'pointer' }}
+              onClick={() =>
+                setLightboxIndex(
+                  featured.slice(0, idx).reduce((acc, g) => acc + g.images.length, 0)
+                )
+              }
               data-cursor-grow
             >
               <Box
                 sx={{
                   position: 'relative',
                   overflow: 'hidden',
-                  borderRadius: '4px',
+                  borderRadius: '2px',
                   '&:hover .overlay': { opacity: 1 },
-                  '&:hover img': { transform: 'scale(1.06)' },
+                  '&:hover img': { transform: 'scale(1.04)' },
                 }}
               >
                 <Image
@@ -73,34 +92,42 @@ export default function FeaturedGallery() {
                     width: '100%',
                     height: 'auto',
                     display: 'block',
-                    transition: 'transform 0.6s ease',
+                    transition: 'transform 0.65s ease',
                   }}
                   placeholder="blur"
                   blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAgMAAAAAAAAAAAAAAQIDBAURBhITFCH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AjtzWmv1TXqk0Wr2yPT3p8WW6bkOqUElJ6TjsO3bPfB7YAXlbK62OsQjW6HWJUxiZMjBbzW0N+PQDhJHoD3GSBV9R//Z"
                 />
-                {/* Hover overlay */}
                 <Box
                   className="overlay"
                   sx={{
                     position: 'absolute',
                     inset: 0,
-                    background:
-                      'linear-gradient(to top, rgba(2,30,50,0.7) 0%, transparent 50%)',
-                    opacity: 0,
-                    transition: 'opacity 0.4s ease',
+                    background: 'linear-gradient(to top, rgba(1,18,35,0.78) 0%, transparent 52%)',
+                    opacity: 0.72,
+                    transition: 'opacity 0.45s ease',
                     display: 'flex',
                     flexDirection: 'column',
                     justifyContent: 'flex-end',
-                    p: 2.5,
-                    gap: 0.75,
+                    p: 2,
+                    gap: 0.5,
                   }}
                 >
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      fontSize: '0.58rem',
+                      letterSpacing: '0.2em',
+                      color: 'rgba(235,245,251,0.55)',
+                    }}
+                  >
+                    {item.date}
+                  </Typography>
                   <Badge variant="gold" label={item.category} />
                   <Typography
                     sx={{
                       fontFamily: '"Cormorant Garamond", serif',
                       fontWeight: 700,
-                      fontSize: '1.1rem',
+                      fontSize: '1.15rem',
                       color: '#EBF5FB',
                       lineHeight: 1.2,
                     }}
@@ -110,9 +137,9 @@ export default function FeaturedGallery() {
                   <Typography
                     sx={{
                       fontFamily: 'Inter, sans-serif',
-                      fontSize: '0.75rem',
-                      color: 'rgba(235,245,251,0.7)',
-                      letterSpacing: '0.04em',
+                      fontSize: '0.72rem',
+                      color: 'rgba(235,245,251,0.65)',
+                      letterSpacing: '0.06em',
                     }}
                   >
                     {item.location}
@@ -125,7 +152,7 @@ export default function FeaturedGallery() {
 
         <Box sx={{ textAlign: 'center', mt: 8 }}>
           <AnimatedButton variant="outlined" href="/portfolio">
-            View Full Portfolio
+            Full portfolio
           </AnimatedButton>
         </Box>
       </Container>
@@ -135,7 +162,7 @@ export default function FeaturedGallery() {
         close={() => setLightboxIndex(-1)}
         index={lightboxIndex}
         slides={slides}
-        styles={{ container: { backgroundColor: 'rgba(2,30,50,0.95)' } }}
+        styles={{ container: { backgroundColor: 'rgba(2,30,50,0.94)' } }}
       />
     </Box>
   );
