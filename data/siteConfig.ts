@@ -5,7 +5,7 @@ export const siteConfig = {
     'Award-winning wedding & celebration photography studio based in Mumbai. We capture the quiet glances, the tears of joy, and the laughter between dances — the moments that make your story yours.',
   phone: '+91 98765 43210',
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919XXXXXXXXX',
-  email: 'hello@photopitaara.com',
+  email: 'photopitaraa@gmail.com',
   address: {
     line1: '42, Linking Road, Bandra West',
     city: 'Mumbai',

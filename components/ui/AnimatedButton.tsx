@@ -2,7 +2,7 @@
 
 import { forwardRef } from 'react';
 import Link from 'next/link';
-import { Button, ButtonProps, Box } from '@mui/material';
+import { Button, ButtonProps } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material';
 
 interface AnimatedButtonProps extends Omit<ButtonProps, 'variant' | 'href'> {
@@ -100,19 +100,26 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
     ];
 
     if (href) {
-      const linkProps = external
-        ? { target: '_blank', rel: 'noopener noreferrer' }
-        : {};
-      return (
-        <Link href={href} {...linkProps} style={{ display: 'inline-block' }}>
-          <Box
-            component="button"
+      if (external) {
+        return (
+          <Button
+            ref={ref}
+            component="a"
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            disableElevation
             sx={combinedSx}
-            {...(props as object)}
+            {...props}
           >
             {children}
-          </Box>
-        </Link>
+          </Button>
+        );
+      }
+      return (
+        <Button ref={ref} component={Link} href={href} disableElevation sx={combinedSx} {...props}>
+          {children}
+        </Button>
       );
     }
 
