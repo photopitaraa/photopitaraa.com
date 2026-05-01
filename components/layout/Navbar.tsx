@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import {
   AppBar,
@@ -63,7 +64,6 @@ export default function Navbar() {
   const lightText = onTop;
   const linkColor = lightText ? 'rgba(255,255,255,0.92)' : 'text.primary';
   const logoMain = lightText ? '#fff' : 'text.primary';
-  const logoAccent = lightText ? 'gold.light' : 'gold.main';
 
   return (
     <>
@@ -99,9 +99,15 @@ export default function Navbar() {
                   fontSize: { xs: '1.35rem', md: '1.65rem' },
                 }}
               >
-                Photo{' '}
-                <Box component="span" sx={{ color: logoAccent }}>
-                  Pitaara
+                <Box component="span" sx={{ lineHeight: 0, display: 'inline-flex' }}>
+                  <Image
+                    src="/images/Logo-Square.png"
+                    alt={`${siteConfig.name} logo`}
+                    width={70}
+                    height={70}
+                    priority
+                    style={{ display: 'block', objectFit: 'contain' }}
+                  />
                 </Box>
               </Typography>
             </Link>

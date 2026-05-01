@@ -30,6 +30,9 @@
     "yet-another-react-lightbox": "^3.21.6"
   },
   "devDependencies": {
+    "@babel/preset-react": "^7.28.5",
+    "@locator/runtime": "^0.5.1",
+    "@locator/webpack-loader": "^0.5.1",
     "@types/node": "^20.16.10",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",

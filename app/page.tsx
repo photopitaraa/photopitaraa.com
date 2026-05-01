@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import HomePage from '@/components/landing/HomePage';
+import HeroImagePreloads from '@/components/landing/HeroImagePreloads';
 import { siteConfig } from '@/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -13,5 +14,10 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      <HeroImagePreloads />
+      <HomePage />
+    </>
+  );
 }

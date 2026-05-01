@@ -1,18 +1,24 @@
 'use client';
 
 import { Box } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { PLACEHOLDER_VIDEOS } from '@/lib/mediaPlaceholders';
 
 const CROSSFADE_MS = 2200;
-const HOLD_MS = 7000;
+
+type Props = {
+  poster?: string;
+  /** Must stay in sync with hero still index (same length as `PLACEHOLDER_VIDEOS`). */
+  activeIndex: number;
+};
 
 /**
- * Cycles placeholder motion backgrounds with crossfade + mild blur (md+).
+ * Motion backgrounds with crossfade. Index is controlled by the parent so stills and
+ * video stay aligned.
  */
-export default function HeroVideoBackdrop({ poster }: { poster?: string }) {
-  const [index, setIndex] = useState(0);
+export default function HeroVideoBackdrop({ poster, activeIndex }: Props) {
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const index = activeIndex % PLACEHOLDER_VIDEOS.length;
 
   useEffect(() => {
     videoRefs.current.forEach((v, i) => {
@@ -24,13 +30,6 @@ export default function HeroVideoBackdrop({ poster }: { poster?: string }) {
       }
     });
   }, [index]);
-
-  useEffect(() => {
-    const t = setInterval(() => {
-      setIndex((i) => (i + 1) % PLACEHOLDER_VIDEOS.length);
-    }, HOLD_MS);
-    return () => clearInterval(t);
-  }, []);
 
   return (
     <Box
@@ -57,14 +56,11 @@ export default function HeroVideoBackdrop({ poster }: { poster?: string }) {
           preload={i === 0 ? 'auto' : 'metadata'}
           sx={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            transform: 'translate(-50%, -50%) scale(1.1)',
+            inset: 0,
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
+            objectPosition: 'center',
             opacity: index === i ? 1 : 0,
             transition: `opacity ${CROSSFADE_MS}ms ease-in-out`,
             filter: { xs: 'none', md: 'blur(2px)' },

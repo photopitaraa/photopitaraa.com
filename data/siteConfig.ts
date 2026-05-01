@@ -18,7 +18,7 @@ export const siteConfig = {
     sunday: 'Sunday: By appointment only',
   },
   social: {
-    instagram: 'https://instagram.com/photopitaara',
+    instagram: 'https://instagram.com/photopitaraa',
     youtube: 'https://youtube.com/@photopitaara',
     facebook: 'https://facebook.com/photopitaara',
     pinterest: 'https://pinterest.com/photopitaara',

@@ -1,22 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import { KeyboardArrowDown } from '@mui/icons-material';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import HeroVideoBackdrop from '@/components/ui/HeroVideoBackdrop';
 import { fadeUp, staggerContainer } from '@/lib/motion';
+import { HERO_PHOTOS, heroOptimizedImageHref } from '@/lib/heroImage';
 
-const heroPhotos = ['/images/hero-1.jpg', '/images/hero-2.jpg', '/images/hero-3.jpg'];
+/** One cadence for video + still wash so layers never drift out of sync. */
+const HERO_SLIDE_MS = 7000;
 
 export default function HeroSection() {
   const [photoSlide, setPhotoSlide] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setPhotoSlide((s) => (s + 1) % heroPhotos.length);
-    }, 6000);
+      setPhotoSlide((s) => (s + 1) % HERO_PHOTOS.length);
+    }, HERO_SLIDE_MS);
     return () => clearInterval(timer);
   }, []);
 
@@ -33,25 +36,35 @@ export default function HeroSection() {
         alignItems: 'center',
       }}
     >
-      <HeroVideoBackdrop poster={heroPhotos[0]} />
+      <HeroVideoBackdrop
+        poster={heroOptimizedImageHref(HERO_PHOTOS[0], 1920)}
+        activeIndex={photoSlide}
+      />
 
-      {/* Subtle photo wash — references stills over motion */}
-      {heroPhotos.map((src, i) => (
+      {/* Optimized stills via `next/image` (AVIF/WebP); opacity on wrapper */}
+      {HERO_PHOTOS.map((src, i) => (
         <Box
           key={src}
           aria-hidden="true"
           sx={{
             position: 'absolute',
             inset: 0,
-            backgroundImage: `url(${src})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            transition: 'opacity 1.8s ease',
-            opacity: photoSlide === i ? 0.14 : 0,
-            mixBlendMode: 'luminosity',
+            transition: 'opacity 0.2s ease-out',
+            opacity: photoSlide === i ? 0.22 : 0,
             zIndex: 0,
+            pointerEvents: 'none',
           }}
-        />
+        >
+          <Image
+            src={src}
+            alt=""
+            fill
+            sizes="100vw"
+            quality={72}
+            priority={i === 0}
+            style={{ objectFit: 'cover', objectPosition: 'center' }}
+          />
+        </Box>
       ))}
 
       <Box
@@ -169,7 +182,7 @@ export default function HeroSection() {
           gap: 1,
         }}
       >
-        {heroPhotos.map((_, i) => (
+        {HERO_PHOTOS.map((_, i) => (
           <Box
             key={i}
             onClick={() => setPhotoSlide(i)}

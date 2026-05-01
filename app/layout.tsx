@@ -7,6 +7,7 @@ import WhatsAppFloat from '@/components/layout/WhatsAppFloat';
 import LenisProvider from '@/components/layout/LenisProvider';
 import SchemaOrg from '@/components/layout/SchemaOrg';
 import SkipLink from '@/components/layout/SkipLink';
+import LocatorClient from '@/components/dev/LocatorClient';
 import { siteConfig } from '@/data/siteConfig';
 
 export const metadata: Metadata = {
@@ -79,6 +80,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         }}
       >
         <ThemeRegistry>
+          {process.env.NODE_ENV === 'development' ? <LocatorClient /> : null}
           <SchemaOrg />
           <LenisProvider />
           <SkipLink />
