@@ -10,4 +10,4 @@ export function picsumUrl(seed: string, width: number, height: number) {
 }
 
 /** Extra editorial slots for masonry / strips (dummy imagery). */
-export const SHOWCASE_DUMMY_SEEDS = Array.from({ length: 36 }, (_, i) => `photopitaara-${i + 1}`);
+export const SHOWCASE_DUMMY_SEEDS = Array.from({ length: 36 }, (_, i) => `photopitaraa-${i + 1}`);

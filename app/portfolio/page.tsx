@@ -1,24 +1,29 @@
 'use client';
 
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Image from 'next/image';
+import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
 import Link from 'next/link';
-import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Container, Pagination, Stack, Tab, Tabs, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Badge from '@/components/ui/Badge';
 import CTABanner from '@/components/sections/CTABanner';
 import { galleryItems, galleryCategories, type GalleryCategory } from '@/data/gallery';
+import { GALLERY_GRID_PAGE_SIZE } from '@/lib/galleryPagination';
 import { scaleIn } from '@/lib/motion';
 
 function PortfolioInner() {
   const searchParams = useSearchParams();
   const [activeCategory, setActiveCategory] = useState<GalleryCategory>('All');
   const [lightboxIndex, setLightboxIndex] = useState(-1);
-  const [lightboxImages, setLightboxImages] = useState<{ src: string; alt: string }[]>([]);
+  const [lightboxImages, setLightboxImages] = useState<
+    { src: string; alt: string; width: number; height: number }[]
+  >([]);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     const raw = searchParams.get('category');
@@ -27,13 +32,38 @@ function PortfolioInner() {
     }
   }, [searchParams]);
 
-  const filtered =
-    activeCategory === 'All'
-      ? galleryItems
-      : galleryItems.filter((g) => g.category === activeCategory);
+  const filtered = useMemo(
+    () =>
+      activeCategory === 'All'
+        ? galleryItems
+        : galleryItems.filter((g) => g.category === activeCategory),
+    [activeCategory],
+  );
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / GALLERY_GRID_PAGE_SIZE));
+
+  useEffect(() => {
+    setPage(1);
+  }, [activeCategory]);
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, totalPages));
+  }, [totalPages]);
+
+  const paginatedItems = filtered.slice(
+    (page - 1) * GALLERY_GRID_PAGE_SIZE,
+    page * GALLERY_GRID_PAGE_SIZE,
+  );
 
   const openLightbox = (item: (typeof galleryItems)[0]) => {
-    setLightboxImages(item.images.map((src) => ({ src, alt: item.title })));
+    setLightboxImages(
+      item.images.map((src) => ({
+        src,
+        alt: item.title,
+        width: item.width,
+        height: item.height,
+      })),
+    );
     setLightboxIndex(0);
   };
 
@@ -110,9 +140,9 @@ function PortfolioInner() {
               transition={{ duration: 0.4 }}
               style={{ columns: '3', columnGap: 16 }}
             >
-              {filtered.map((item) => (
+              {paginatedItems.map((item) => (
                 <motion.div
-                  key={item.id}
+                  key={`${activeCategory}-${page}-${item.id}`}
                   variants={scaleIn}
                   initial="hidden"
                   animate="visible"
@@ -130,11 +160,8 @@ function PortfolioInner() {
                     onClick={() => openLightbox(item)}
                     data-cursor-grow
                   >
-                    <Image
-                      src={item.coverImage}
-                      alt={item.title}
-                      width={item.width}
-                      height={item.height}
+                    <ResponsiveGalleryCoverImage
+                      item={item}
                       sizes="(max-width: 768px) 100vw, 33vw"
                       style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.55s ease' }}
                     />
@@ -186,6 +213,23 @@ function PortfolioInner() {
               ))}
             </motion.div>
           </AnimatePresence>
+
+          {totalPages > 1 && (
+            <Stack alignItems="center" sx={{ mt: 5 }}>
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={(_, value) => setPage(value)}
+                color="primary"
+                showFirstButton
+                showLastButton
+                siblingCount={1}
+                sx={{
+                  '& .MuiPaginationItem-root': { fontFamily: 'Poppins, sans-serif' },
+                }}
+              />
+            </Stack>
+          )}
         </Container>
       </Box>
 
@@ -196,6 +240,7 @@ function PortfolioInner() {
         close={() => setLightboxIndex(-1)}
         index={lightboxIndex}
         slides={lightboxImages}
+        render={{ slide: NextLightboxSlide }}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.97)' } }}
       />
     </>

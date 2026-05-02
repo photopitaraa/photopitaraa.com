@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: 'Photo Pitaara',
+  name: 'photopitaraa',
   tagline: 'Where Every Frame Tells a Love Story',
   description:
     'Award-winning wedding & celebration photography studio based in Mumbai. We capture the quiet glances, the tears of joy, and the laughter between dances — the moments that make your story yours.',
@@ -19,12 +19,12 @@ export const siteConfig = {
   },
   social: {
     instagram: 'https://instagram.com/photopitaraa',
-    youtube: 'https://youtube.com/@photopitaara',
-    facebook: 'https://facebook.com/photopitaara',
-    pinterest: 'https://pinterest.com/photopitaara',
+    youtube: 'https://youtube.com/@photopitaraa',
+    facebook: 'https://facebook.com/photopitaraa',
+    pinterest: 'https://pinterest.com/photopitaraa',
   },
   ogImage: '/og-image.jpg',
-  url: 'https://www.photopitaara.com',
+  url: 'https://www.photopitaraa.com',
   founded: 2016,
   stats: [
     { value: 500, suffix: '+', label: 'Weddings Captured' },

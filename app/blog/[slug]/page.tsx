@@ -121,8 +121,8 @@ export default function BlogPostPage({ params }: Props) {
     datePublished: post.date,
     publisher: {
       '@type': 'Organization',
-      name: 'Photo Pitaara',
-      url: 'https://www.photopitaara.com',
+      name: 'Photopitaraa',
+      url: 'https://www.photopitaraa.com',
     },
   };
 

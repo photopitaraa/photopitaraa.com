@@ -45,7 +45,7 @@ export const services: Service[] = [
       'Dolby-mixed audio',
       'Digital delivery + USB',
     ],
-    coverImage: '/images/wedding-2.jpg',
+    coverImage: '/images/weddings/Couple2-Landscape.jpg',
     category: 'Wedding',
   },
   {

@@ -144,7 +144,7 @@ export default function WhyChooseUs() {
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         <SectionHeading
-          eyebrow="Why Photo Pitaara"
+          eyebrow="Why Photopitaraa"
           title="We Don't Just Photograph. We Bear Witness."
           subtitle="There are thousands of photographers. We chose to be storytellers — obsessive, disciplined, and genuinely moved by every love story we're invited into."
           light

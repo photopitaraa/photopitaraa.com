@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     'pre-wedding shoot',
     'maternity photography',
     'birthday photography',
-    'Photo Pitaara',
+    'photopitaraa',
     'luxury wedding photography',
   ],
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Fonts loaded via browser — avoids server-side Google Fonts fetch in dev */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -76,7 +76,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           fontFamily: "'Inter', sans-serif",
           margin: 0,
           padding: 0,
-          backgroundColor: '#FAF8F5',
         }}
       >
         <ThemeRegistry>

@@ -1,14 +1,16 @@
 'use client';
 
-import { useMemo, useState } from 'react';
-import Image from 'next/image';
+import { useEffect, useMemo, useState } from 'react';
+import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Box, Chip, Container, Stack, Typography } from '@mui/material';
+import { Box, Chip, Container, Pagination, Stack, Typography } from '@mui/material';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
 import Reveal from '@/components/ui/Reveal';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import { galleryItems, type GalleryCategory } from '@/data/gallery';
+import { GALLERY_GRID_PAGE_SIZE, slideOffsetBeforeItem } from '@/lib/galleryPagination';
 import { easeOut } from '@/lib/motion';
 
 const previewCategories: GalleryCategory[] = ['All', 'Weddings', 'Pre-Wedding', 'Maternity', 'Birthday'];
@@ -16,18 +18,37 @@ const previewCategories: GalleryCategory[] = ['All', 'Weddings', 'Pre-Wedding', 
 export default function HomePortfolioPreview() {
   const [cat, setCat] = useState<GalleryCategory>('All');
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [page, setPage] = useState(1);
 
   const filtered = useMemo(
     () => (cat === 'All' ? galleryItems : galleryItems.filter((g) => g.category === cat)),
-    [cat]
+    [cat],
   );
 
-  const slides = filtered.flatMap((item) => item.images.map((src) => ({ src, alt: item.title })));
+  const totalPages = Math.max(1, Math.ceil(filtered.length / GALLERY_GRID_PAGE_SIZE));
+
+  useEffect(() => {
+    setPage(1);
+  }, [cat]);
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, totalPages));
+  }, [totalPages]);
+
+  const paginated = filtered.slice((page - 1) * GALLERY_GRID_PAGE_SIZE, page * GALLERY_GRID_PAGE_SIZE);
+
+  const slides = filtered.flatMap((item) =>
+    item.images.map((src) => ({
+      src,
+      alt: item.title,
+      width: item.width,
+      height: item.height,
+    })),
+  );
 
   const openAt = (item: (typeof galleryItems)[0]) => {
     const idx = filtered.indexOf(item);
-    const start = filtered.slice(0, idx).reduce((a, g) => a + g.images.length, 0);
-    setLightboxIndex(start);
+    setLightboxIndex(slideOffsetBeforeItem(filtered, idx));
   };
 
   return (
@@ -71,7 +92,10 @@ export default function HomePortfolioPreview() {
               <Chip
                 key={c}
                 label={c === 'All' ? 'All' : c}
-                onClick={() => setCat(c)}
+                onClick={() => {
+                  setCat(c);
+                  setPage(1);
+                }}
                 variant={cat === c ? 'filled' : 'outlined'}
                 sx={{
                   fontFamily: 'Poppins, sans-serif',
@@ -96,9 +120,9 @@ export default function HomePortfolioPreview() {
           }}
         >
           <AnimatePresence mode="popLayout">
-            {filtered.map((item) => (
+            {paginated.map((item) => (
               <motion.div
-                key={`${cat}-${item.id}`}
+                key={`${cat}-${page}-${item.id}`}
                 layout
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -118,9 +142,8 @@ export default function HomePortfolioPreview() {
                   }}
                   onClick={() => openAt(item)}
                 >
-                  <Image
-                    src={item.coverImage}
-                    alt={item.title}
+                  <ResponsiveGalleryCoverImage
+                    item={item}
                     fill
                     sizes="(max-width:768px) 100vw, 33vw"
                     style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
@@ -150,6 +173,23 @@ export default function HomePortfolioPreview() {
           </AnimatePresence>
         </Box>
 
+        {totalPages > 1 && (
+          <Stack alignItems="center" sx={{ mt: 4 }}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              color="primary"
+              showFirstButton
+              showLastButton
+              siblingCount={1}
+              sx={{
+                '& .MuiPaginationItem-root': { fontFamily: 'Poppins, sans-serif' },
+              }}
+            />
+          </Stack>
+        )}
+
         <Reveal>
           <Box sx={{ textAlign: 'center', mt: 6 }}>
             <AnimatedButton variant="filled" href="/portfolio">
@@ -164,6 +204,7 @@ export default function HomePortfolioPreview() {
         close={() => setLightboxIndex(-1)}
         index={lightboxIndex}
         slides={slides}
+        render={{ slide: NextLightboxSlide }}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.94)' } }}
       />
     </Box>

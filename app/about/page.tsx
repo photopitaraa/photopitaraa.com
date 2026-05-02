@@ -10,11 +10,11 @@ import { siteConfig } from '@/data/siteConfig';
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'Meet the team behind Photo Pitaara — Mumbai\'s award-winning wedding photography studio. 8 years, 500+ weddings, and a relentless passion for visual storytelling.',
+    'Meet the team behind Photopitaraa — Mumbai\'s award-winning wedding photography studio. 8 years, 500+ weddings, and a relentless passion for visual storytelling.',
 };
 
 const milestones = [
-  { year: '2016', title: 'Studio Founded', description: 'Photo Pitaara opens its doors in Bandra, Mumbai — a one-person operation with one camera and a deep belief that wedding photography could be something more.' },
+  { year: '2016', title: 'Studio Founded', description: 'Photopitaraa opens its doors in Bandra, Mumbai — a one-person operation with one camera and a deep belief that wedding photography could be something more.' },
   { year: '2018', title: 'First Award', description: 'Recognised at the India Wedding Industry Awards as Best Wedding Photographer of the Year. The first of twelve.' },
   { year: '2020', title: '100th Wedding', description: 'We photograph our 100th wedding — a quiet destination event in Coorg — and release our first cinematic film to 200,000 YouTube views.' },
   { year: '2022', title: 'Studio Expansion', description: 'The team grows to six: two lead photographers, two cinematographers, and two editors. Every couple still gets personal, dedicated attention.' },
@@ -25,7 +25,7 @@ const team = [
   {
     name: 'Aryan Sharma',
     role: 'Founder & Lead Photographer',
-    bio: 'Aryan started Photo Pitaara after spending three years shooting street photography in Mumbai. He believes the best wedding images are stolen, not staged.',
+    bio: 'Aryan started Photopitaraa after spending three years shooting street photography in Mumbai. He believes the best wedding images are stolen, not staged.',
     image: '/images/team-1.jpg',
   },
   {
@@ -97,7 +97,7 @@ export default function AboutPage() {
                 maxWidth: 560,
               }}
             >
-              Photo Pitaara was built on a single belief: that every wedding holds moments of such private, particular beauty that they deserve a photographer who is genuinely paying attention.
+              Photopitaraa was built on a single belief: that every wedding holds moments of such private, particular beauty that they deserve a photographer who is genuinely paying attention.
             </Typography>
           </Box>
         </Container>
@@ -119,7 +119,7 @@ export default function AboutPage() {
               >
                 <Image
                   src="/images/about-founder.jpg"
-                  alt="Aryan Sharma — Founder of Photo Pitaara"
+                  alt="Aryan Sharma — Founder of Photopitaraa"
                   fill
                   sizes="(max-width: 768px) 100vw, 42vw"
                   style={{ objectFit: 'cover' }}
@@ -144,7 +144,7 @@ export default function AboutPage() {
                 Fifteen years later, I lead a team of six people who share the same quiet obsession. We show up to weddings not as vendors, but as witnesses. We pay attention the way family pays attention — with love, with stakes, with the knowledge that some moments only happen once.
               </Typography>
               <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.85, color: 'text.secondary', mb: 5 }}>
-                Photo Pitaara is the studio I needed when I got married and couldn&apos;t find. Everything we do is built around the question: if these were my photographs, would I be proud?
+                Photopitaraa is the studio I needed when I got married and couldn&apos;t find. Everything we do is built around the question: if these were my photographs, would I be proud?
               </Typography>
               <AnimatedButton variant="outlined" href="/contact">
                 Work with Aryan
@@ -260,7 +260,7 @@ export default function AboutPage() {
           <SectionHeading
             eyebrow="The Team"
             title="The People Behind the Lens"
-            subtitle="Small by design. Every member of the Photo Pitaara team has been chosen for obsession, not just skill."
+            subtitle="Small by design. Every member of the Photopitaraa team has been chosen for obsession, not just skill."
             light
           />
           <GoldDivider my={6} />

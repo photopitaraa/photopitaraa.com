@@ -81,7 +81,7 @@ export default function TestimonialsSection() {
             variant="overline"
             sx={{ color: 'gold.main', fontSize: '0.68rem', letterSpacing: '0.2em' }}
           >
-            Priya & Arjun Mehta — Udaipur Wedding, February 2025
+            {/* Priya & Arjun Mehta — Udaipur Wedding, February 2025 */}
           </Typography>
         </Box>
 

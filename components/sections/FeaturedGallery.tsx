@@ -1,17 +1,19 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import Image from 'next/image';
-import { Box, Container, Typography } from '@mui/material';
+import { useEffect, useRef, useState } from 'react';
+import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
+import { Box, Container, Pagination, Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
 import Lightbox from 'yet-another-react-lightbox';
 import 'yet-another-react-lightbox/styles.css';
+import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import Badge from '@/components/ui/Badge';
 import { galleryItems, type GalleryItem } from '@/data/gallery';
 import { showcaseExtraTiles } from '@/data/showcaseExtras';
+import { GALLERY_GRID_PAGE_SIZE, slideOffsetBeforeItem } from '@/lib/galleryPagination';
 import { scaleIn, staggerContainer } from '@/lib/motion';
 import { useInView } from 'framer-motion';
 
@@ -36,10 +38,27 @@ const featured: GalleryItem[] = [
 
 export default function FeaturedGallery() {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [page, setPage] = useState(1);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
-  const slides = featured.flatMap((item) => item.images.map((src) => ({ src, alt: item.title })));
+  const totalPages = Math.max(1, Math.ceil(featured.length / GALLERY_GRID_PAGE_SIZE));
+
+  useEffect(() => {
+    setPage((p) => Math.min(p, totalPages));
+  }, [totalPages]);
+
+  const pageOffset = (page - 1) * GALLERY_GRID_PAGE_SIZE;
+  const paginatedFeatured = featured.slice(pageOffset, pageOffset + GALLERY_GRID_PAGE_SIZE);
+
+  const slides = featured.flatMap((item) =>
+    item.images.map((src) => ({
+      src,
+      alt: item.title,
+      width: item.width,
+      height: item.height,
+    })),
+  );
 
   return (
     <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
@@ -61,14 +80,14 @@ export default function FeaturedGallery() {
             columnGap: '12px',
           }}
         >
-          {featured.map((item, idx) => (
+          {paginatedFeatured.map((item, localIdx) => (
             <motion.div
-              key={item.id}
+              key={`${page}-${item.id}`}
               variants={scaleIn}
               style={{ breakInside: 'avoid', marginBottom: 12, cursor: 'pointer' }}
               onClick={() =>
                 setLightboxIndex(
-                  featured.slice(0, idx).reduce((acc, g) => acc + g.images.length, 0)
+                  slideOffsetBeforeItem(featured, pageOffset + localIdx),
                 )
               }
               data-cursor-grow
@@ -82,11 +101,8 @@ export default function FeaturedGallery() {
                   '&:hover img': { transform: 'scale(1.04)' },
                 }}
               >
-                <Image
-                  src={item.coverImage}
-                  alt={item.title}
-                  width={item.width}
-                  height={item.height}
+                <ResponsiveGalleryCoverImage
+                  item={item}
                   sizes="(max-width: 768px) 100vw, 33vw"
                   style={{
                     width: '100%',
@@ -150,6 +166,23 @@ export default function FeaturedGallery() {
           ))}
         </motion.div>
 
+        {totalPages > 1 && (
+          <Stack alignItems="center" sx={{ mt: 5 }}>
+            <Pagination
+              count={totalPages}
+              page={page}
+              onChange={(_, value) => setPage(value)}
+              color="primary"
+              showFirstButton
+              showLastButton
+              siblingCount={1}
+              sx={{
+                '& .MuiPaginationItem-root': { fontFamily: 'Poppins, sans-serif' },
+              }}
+            />
+          </Stack>
+        )}
+
         <Box sx={{ textAlign: 'center', mt: 8 }}>
           <AnimatedButton variant="outlined" href="/portfolio">
             Full portfolio
@@ -162,6 +195,7 @@ export default function FeaturedGallery() {
         close={() => setLightboxIndex(-1)}
         index={lightboxIndex}
         slides={slides}
+        render={{ slide: NextLightboxSlide }}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.94)' } }}
       />
     </Box>

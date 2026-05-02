@@ -36,7 +36,7 @@ export default function Footer() {
         <Grid container spacing={{ xs: 5, md: 6 }}>
           <Grid item xs={12} md={4}>
             <Typography variant="h5" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, mb: 2 }}>
-              Photo <Box component="span" sx={{ color: 'gold.main' }}>Pitaara</Box>
+              Photo<Box component="span" sx={{ color: 'gold.main' }}>pitaraa</Box>
             </Typography>
             <Typography sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 320, mb: 2 }}>
               {siteConfig.description}

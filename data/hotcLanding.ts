@@ -39,7 +39,7 @@ export const hotcFeaturedItems: HotcFeaturedItem[] = [
 
 export const hotcIntro = {
   lead:
-    'Considered among the new wave of modern wedding photography in India, Photo Pitaara has spent years building photographs and films that feel timeless — etched in memory long after the last song.',
+    'Considered among the new wave of modern wedding photography in India, Photopitaraa has spent years building photographs and films that feel timeless — etched in memory long after the last song.',
   awards:
     'Recognised for editorial storytelling and featured across leading wedding journals. We travel for love stories — from Bandra terraces to palace courtyards.',
 };
@@ -65,7 +65,7 @@ export const hotcFilms = {
     },
   ],
   ctaLabel: 'Watch All Our Films',
-  ctaHref: 'https://youtube.com/@photopitaara',
+  ctaHref: 'https://youtube.com/@photopitaraa',
 };
 
 export const hotcManifesto =

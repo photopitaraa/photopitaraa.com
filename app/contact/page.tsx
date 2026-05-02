@@ -8,7 +8,7 @@ import { siteConfig } from '@/data/siteConfig';
 export const metadata: Metadata = {
   title: 'Contact & Booking',
   description:
-    'Get in touch with Photo Pitaara to check availability and book your photography session. Based in Mumbai — serving weddings across India.',
+    'Get in touch with Photopitaraa to check availability and book your photography session. Based in Mumbai — serving weddings across India.',
 };
 
 const jsonLd = {
@@ -228,8 +228,8 @@ export default function ContactPage() {
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Photo Pitaara Studio Location"
-              aria-label="Google Map showing Photo Pitaara studio location in Bandra West, Mumbai"
+              title="Photopitaraa Studio Location"
+              aria-label="Google Map showing Photopitaraa studio location in Bandra West, Mumbai"
             />
           </Box>
         </Container>

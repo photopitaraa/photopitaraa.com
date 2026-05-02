@@ -16,7 +16,7 @@ const localIg = [
   { src: '/images/prewedding-1.jpg', alt: 'Pre-wedding shoot' },
   { src: '/images/wedding-3.jpg', alt: 'Couple portrait' },
   { src: '/images/maternity-1.jpg', alt: 'Maternity session' },
-  { src: '/images/wedding-2.jpg', alt: 'Wedding reception' },
+  { src: '/images/weddings/Couple2-Landscape.jpg', alt: 'Wedding reception' },
   { src: '/images/birthday-1.jpg', alt: 'Birthday celebration' },
 ];
 
@@ -35,7 +35,7 @@ export default function InstagramGrid() {
     <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
       <Container maxWidth="xl">
         <SectionHeading
-          eyebrow="@photopitaara"
+          eyebrow="@photopitaraa"
           title="On the gram"
           subtitle="A wider feed of frames — real celebrations and placeholder tiles you can replace with exports."
         />
@@ -118,7 +118,7 @@ export default function InstagramGrid() {
               transition: 'color 0.2s ease',
             }}
           >
-            @photopitaara on Instagram
+            @photopitaraa on Instagram
           </Typography>
         </Box>
       </Container>

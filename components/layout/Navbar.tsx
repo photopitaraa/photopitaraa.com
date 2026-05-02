@@ -16,7 +16,8 @@ import {
   Typography,
   useScrollTrigger,
 } from '@mui/material';
-import { Close, ExpandMore, KeyboardArrowDown, Menu as MenuIcon } from '@mui/icons-material';
+import { Close, DarkModeOutlined, ExpandMore, KeyboardArrowDown, LightModeOutlined, Menu as MenuIcon } from '@mui/icons-material';
+import { useTheme as useNextTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { navbarVariantsUnified, drawerLinkVariants, easeOut } from '@/lib/motion';
 import { siteConfig } from '@/data/siteConfig';
@@ -62,8 +63,14 @@ export default function Navbar() {
 
   const onTop = !scrolled;
   const lightText = onTop;
-  const linkColor = lightText ? 'rgba(255,255,255,0.92)' : 'text.primary';
-  const logoMain = lightText ? '#fff' : 'text.primary';
+  /** Solid nav bar is always dark; transparent state sits over a dark hero — use light links for contrast in both. */
+  const linkColor = 'rgba(255,255,255,0.92)';
+  const logoMain = '#ffffff';
+  const { resolvedTheme, setTheme } = useNextTheme();
+  const [themeToggleReady, setThemeToggleReady] = useState(false);
+  useEffect(() => {
+    setThemeToggleReady(true);
+  }, []);
 
   return (
     <>
@@ -202,6 +209,18 @@ export default function Navbar() {
                 </Link>
               ))}
 
+              {themeToggleReady && (
+                <IconButton
+                  type="button"
+                  aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                  onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                  size="small"
+                  sx={{ color: linkColor, mx: 0.5 }}
+                >
+                  {resolvedTheme === 'dark' ? <LightModeOutlined fontSize="small" /> : <DarkModeOutlined fontSize="small" />}
+                </IconButton>
+              )}
+
               <Link href="/contact">
                 <Box
                   component="span"
@@ -238,7 +257,7 @@ export default function Navbar() {
               aria-label="Open menu"
               sx={{
                 display: { xs: 'flex', lg: 'none' },
-                color: lightText ? '#fff' : 'text.primary',
+                color: linkColor,
               }}
             >
               <MenuIcon />
@@ -257,16 +276,28 @@ export default function Navbar() {
             maxWidth: 420,
             bgcolor: '#1E1E1E',
             p: 3,
+            color: 'rgba(248,248,248,0.92)',
           },
         }}
       >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
-          <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, fontSize: '1.35rem' }}>
+          <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, fontSize: '1.35rem', color: 'inherit' }}>
             Photo <Box component="span" sx={{ color: 'gold.main' }}>Pitaara</Box>
           </Typography>
-          <IconButton onClick={() => setMobileOpen(false)} aria-label="Close menu">
-            <Close />
-          </IconButton>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+            {themeToggleReady && (
+              <IconButton
+                aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+                sx={{ color: 'inherit' }}
+              >
+                {resolvedTheme === 'dark' ? <LightModeOutlined /> : <DarkModeOutlined />}
+              </IconButton>
+            )}
+            <IconButton onClick={() => setMobileOpen(false)} aria-label="Close menu" sx={{ color: 'inherit' }}>
+              <Close />
+            </IconButton>
+          </Box>
         </Box>
 
         <AnimatePresence>

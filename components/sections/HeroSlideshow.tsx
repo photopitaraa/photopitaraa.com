@@ -6,12 +6,19 @@ import Link from 'next/link';
 import { Box, Container, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
 import { galleryItems } from '@/data/gallery';
+import { useGalleryCoverSrc } from '@/hooks/useResponsiveGalleryCover';
 
-// ── Slide data ────────────────────────────────────────────────────────────────
-const slides = galleryItems
+// ── Slide metadata (responsive URL resolved per viewport in component) ─────────
+const slideEntries = galleryItems
   .filter((g) => g.category === 'Weddings' || g.category === 'Pre-Wedding')
   .slice(0, 6)
-  .map((g) => ({ id: g.id, src: g.coverImage, title: g.title, location: g.location }));
+  .map((g) => ({
+    slug: g.slug,
+    title: g.title,
+    location: g.location,
+    coverImage: g.coverImage,
+    coverImagePortrait: g.coverImagePortrait,
+  }));
 
 const HOLD_MS   = 7000;
 const ANIM_S    = 1.2;
@@ -64,6 +71,76 @@ function Arrow({ dir }: { dir: 'prev' | 'next' }) {
   );
 }
 
+type BottomNavProps = {
+  locked: boolean;
+  prev: () => void;
+  next: () => void;
+  // eslint-disable-next-line no-unused-vars -- callback parameter name for arity only
+  go: (index: number) => void;
+  current: number;
+  slideCount: number;
+};
+
+function SlideshowBottomNav({ locked, prev, next, go, current, slideCount }: BottomNavProps) {
+  return (
+    <>
+      <Box sx={{ display: 'flex' }}>
+        {(['prev', 'next'] as const).map((dir) => (
+          <Box
+            key={dir}
+            component="button"
+            type="button"
+            onClick={dir === 'prev' ? prev : next}
+            disabled={locked}
+            aria-label={dir === 'prev' ? 'Previous slide' : 'Next slide'}
+            sx={{
+              width: { xs: 46, md: 54 },
+              height: { xs: 46, md: 54 },
+              border: '1px solid rgba(255,255,255,0.45)',
+              borderLeft: dir === 'next' ? 'none' : undefined,
+              background: 'none',
+              color: '#fff',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background 0.25s ease, color 0.25s ease',
+              '&:hover': { background: 'rgba(200,164,106,0.15)', color: '#C8A46A', borderColor: '#C8A46A' },
+              '&:disabled': { opacity: 0.4, cursor: 'default' },
+            }}
+          >
+            <Arrow dir={dir} />
+          </Box>
+        ))}
+      </Box>
+
+      <Box sx={{ display: 'flex', gap: { xs: 1, md: 1.25 }, alignItems: 'center' }}>
+        {Array.from({ length: slideCount }, (_, i) => (
+          <Box
+            key={i}
+            component="button"
+            type="button"
+            onClick={() => go(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            sx={{
+              width: 9,
+              height: 9,
+              border: '1px solid rgba(255,255,255,0.7)',
+              borderRadius: 0,
+              background: i === current ? '#C8A46A' : 'transparent',
+              borderColor: i === current ? '#C8A46A' : 'rgba(255,255,255,0.55)',
+              cursor: 'pointer',
+              transition: 'background 0.25s ease, border-color 0.25s ease',
+              '&:hover': { background: 'rgba(200,164,106,0.45)' },
+              padding: 0,
+            }}
+          />
+        ))}
+      </Box>
+    </>
+  );
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 export default function HeroSlideshow() {
   const [current, setCurrent]   = useState(0);
@@ -78,7 +155,7 @@ export default function HeroSlideshow() {
       if (locked) return;
       setLocked(true);
       setProgress(0);
-      setCurrent((idx + slides.length) % slides.length);
+      setCurrent((idx + slideEntries.length) % slideEntries.length);
       setTimeout(() => setLocked(false), ANIM_S * 1000 + 100);
     },
     [locked],
@@ -86,6 +163,9 @@ export default function HeroSlideshow() {
 
   const next = useCallback(() => go(current + 1), [go, current]);
   const prev = useCallback(() => go(current - 1), [go, current]);
+
+  const slide = slideEntries[current];
+  const heroCoverSrc = useGalleryCoverSrc(slide);
 
   // Progress bar + autoplay
   useEffect(() => {
@@ -123,7 +203,6 @@ export default function HeroSlideshow() {
         cursor: 'default',
       }}
     >
-      {/* ── Slides ── */}
       <AnimatePresence initial={false}>
         <motion.div
           key={current}
@@ -138,7 +217,6 @@ export default function HeroSlideshow() {
             zIndex: 2,
           }}
         >
-          {/* Zooming image */}
           <motion.div
             variants={imageVariants}
             initial="enter"
@@ -147,8 +225,9 @@ export default function HeroSlideshow() {
             style={{ position: 'absolute', inset: '-8%' }}
           >
             <Image
-              src={slides[current].src}
-              alt={slides[current].title}
+              key={heroCoverSrc}
+              src={heroCoverSrc}
+              alt={slide.title}
               fill
               priority
               sizes="100vw"
@@ -156,7 +235,6 @@ export default function HeroSlideshow() {
             />
           </motion.div>
 
-          {/* Gradient overlay */}
           <Box
             aria-hidden
             sx={{
@@ -175,7 +253,6 @@ export default function HeroSlideshow() {
             }}
           />
 
-          {/* Caption */}
           <Container
             maxWidth="xl"
             sx={{
@@ -199,7 +276,7 @@ export default function HeroSlideshow() {
                   mb: 1.5,
                 }}
               >
-                {slides[current].location}
+                {slide.location}
               </Typography>
             </motion.div>
 
@@ -216,13 +293,13 @@ export default function HeroSlideshow() {
                     textShadow: '0 2px 24px rgba(17,17,17,0.4)',
                   }}
                 >
-                  {slides[current].title}
+                  {slide.title}
                 </Typography>
               </motion.div>
             </Box>
 
             <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
-              <Link href={`/portfolio/${slides[current].id}`} style={{ display: 'inline-block' }}>
+              <Link href={`/portfolio/${slide.slug}`} style={{ display: 'inline-block' }}>
                 <Typography
                   component="span"
                   sx={{
@@ -257,10 +334,7 @@ export default function HeroSlideshow() {
         </motion.div>
       </AnimatePresence>
 
-      {/* ── UI overlay ── */}
       <Box sx={{ position: 'absolute', inset: 0, zIndex: 10, pointerEvents: 'none' }}>
-
-        {/* Slide counter — top right */}
         <Box
           sx={{
             position: 'absolute',
@@ -279,10 +353,9 @@ export default function HeroSlideshow() {
             {String(current + 1).padStart(2, '0')}
           </Box>
           <Box component="span" sx={{ width: 20, height: 1, backgroundColor: 'rgba(255,255,255,0.25)' }} />
-          <Box component="span">{String(slides.length).padStart(2, '0')}</Box>
+          <Box component="span">{String(slideEntries.length).padStart(2, '0')}</Box>
         </Box>
 
-        {/* Arrow buttons + dot pagination — bottom */}
         <Box
           sx={{
             position: 'absolute',
@@ -296,61 +369,14 @@ export default function HeroSlideshow() {
             pointerEvents: 'auto',
           }}
         >
-          {/* Arrows */}
-          <Box sx={{ display: 'flex' }}>
-            {(['prev', 'next'] as const).map((dir) => (
-              <Box
-                key={dir}
-                component="button"
-                type="button"
-                onClick={dir === 'prev' ? prev : next}
-                disabled={locked}
-                aria-label={dir === 'prev' ? 'Previous slide' : 'Next slide'}
-                sx={{
-                  width: { xs: 46, md: 54 },
-                  height: { xs: 46, md: 54 },
-                  border: '1px solid rgba(255,255,255,0.45)',
-                  borderLeft: dir === 'next' ? 'none' : undefined,
-                  background: 'none',
-                  color: '#fff',
-                  cursor: 'pointer',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'background 0.25s ease, color 0.25s ease',
-                  '&:hover': { background: 'rgba(200,164,106,0.15)', color: '#C8A46A', borderColor: '#C8A46A' },
-                  '&:disabled': { opacity: 0.4, cursor: 'default' },
-                }}
-              >
-                <Arrow dir={dir} />
-              </Box>
-            ))}
-          </Box>
-
-          {/* Dot pagination */}
-          <Box sx={{ display: 'flex', gap: { xs: 1, md: 1.25 }, alignItems: 'center' }}>
-            {slides.map((_, i) => (
-              <Box
-                key={i}
-                component="button"
-                type="button"
-                onClick={() => go(i)}
-                aria-label={`Go to slide ${i + 1}`}
-                sx={{
-                  width: 9,
-                  height: 9,
-                  border: '1px solid rgba(255,255,255,0.7)',
-                  borderRadius: 0,
-                  background: i === current ? '#C8A46A' : 'transparent',
-                  borderColor: i === current ? '#C8A46A' : 'rgba(255,255,255,0.55)',
-                  cursor: 'pointer',
-                  transition: 'background 0.25s ease, border-color 0.25s ease',
-                  '&:hover': { background: 'rgba(200,164,106,0.45)' },
-                  padding: 0,
-                }}
-              />
-            ))}
-          </Box>
+          <SlideshowBottomNav
+            locked={locked}
+            prev={prev}
+            next={next}
+            go={go}
+            current={current}
+            slideCount={slideEntries.length}
+          />
         </Box>
       </Box>
 

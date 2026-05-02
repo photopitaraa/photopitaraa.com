@@ -14,7 +14,10 @@ export interface GalleryItem {
   category: GalleryCategory;
   location: string;
   date: string;
+  /** Landscape / desktop-primary cover */
   coverImage: string;
+  /** Optional portrait-oriented cover for phones & upright tablets */
+  coverImagePortrait?: string;
   images: string[];
   story?: string;
   couple?: string;
@@ -27,13 +30,14 @@ export const galleryItems: GalleryItem[] = [
   {
     id: '1',
     slug: 'priya-arjun-udaipur',
-    title: 'Priya & Arjun',
+    title: '',
     category: 'Weddings',
-    location: 'Udaipur, Rajasthan',
+    location: '',
     date: 'February 2025',
-    couple: 'Priya & Arjun',
+    couple: '',
     venue: 'Taj Lake Palace, Udaipur',
-    coverImage: '/images/wedding-1.jpg',
+    coverImage: '/images/weddings/Couple1-Landscape.jpg',
+    coverImagePortrait: '/images/weddings/Couple1-Portrait.jpg',
     images: [
       '/images/wedding-1.jpg',
       '/images/wedding-2.jpg',
@@ -47,20 +51,21 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '2',
-    slug: 'meera-kabir-mumbai',
-    title: 'Meera & Kabir',
+    slug: 'celebration-two',
+    title: '',
     category: 'Weddings',
-    location: 'Mumbai, Maharashtra',
+    location: '',
     date: 'January 2025',
-    couple: 'Meera & Kabir',
-    venue: 'The St. Regis, Mumbai',
-    coverImage: '/images/wedding-2.jpg',
+    couple: '',
+    venue: '',
+    coverImage: '/images/weddings/Couple2-Landscape.jpg',
+    coverImagePortrait: '/images/weddings/Couple2-Portrait.jpg',
     images: [
-      '/images/wedding-2.jpg',
-      '/images/wedding-3.jpg',
+      '/images/weddings/Couple2-Landscape.jpg',
+      '/images/weddings/Couple2-Portrait.jpg',
     ],
     story:
-      'A rooftop ceremony above Mumbai\'s skyline, a first dance that stopped everyone mid-breath, and a mother\'s smile that made the whole room still. Meera & Kabir gave us the kind of day photographers dream of.',
+      'Sun fell across textured walls and carved wood in long strokes — a ceremony held close, laughter echoing off stone, and the kind of quiet pride families wear when everything feels exactly right.',
     width: 800,
     height: 600,
   },

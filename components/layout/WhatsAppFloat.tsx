@@ -8,7 +8,7 @@ import { siteConfig } from '@/data/siteConfig';
 export default function WhatsAppFloat() {
   const number = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? siteConfig.whatsapp;
   const message = encodeURIComponent(
-    "Hi, I'd like to enquire about a photography session with Photo Pitaara."
+    "Hi, I'd like to enquire about a photography session with Photopitaraa."
   );
   const href = `https://wa.me/${number}?text=${message}`;
 

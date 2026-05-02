@@ -23,7 +23,7 @@ const iconMap: Record<string, SvgIconComponent> = {
 export const metadata: Metadata = {
   title: 'Services',
   description:
-    'Wedding photography, cinematic films, pre-wedding shoots, maternity, birthdays, and more — Photo Pitaara covers every chapter of your story.',
+    'Wedding photography, cinematic films, pre-wedding shoots, maternity, birthdays, and more — Photopitaraa covers every chapter of your story.',
 };
 
 function ServiceCard({ service, reverse }: { service: Service; reverse?: boolean }) {

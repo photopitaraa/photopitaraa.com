@@ -12,7 +12,7 @@ import { blogPosts } from '@/data/blog';
 export const metadata: Metadata = {
   title: 'Blog — Wedding Photography Tips & Stories',
   description:
-    'Photography insights, wedding tips, and behind-the-scenes stories from Photo Pitaara. Written by working photographers for couples and creatives.',
+    'Photography insights, wedding tips, and behind-the-scenes stories from Photopitaraa. Written by working photographers for couples and creatives.',
 };
 
 export default function BlogPage() {

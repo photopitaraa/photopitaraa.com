@@ -12,7 +12,7 @@ import { siteConfig } from '@/data/siteConfig';
 export const metadata: Metadata = {
   title: 'Reviews & Testimonials',
   description:
-    'Real reviews from real couples. 100% 5-star ratings across Google and WeddingWire. Read what 500+ families say about Photo Pitaara.',
+    'Real reviews from real couples. 100% 5-star ratings across Google and WeddingWire. Read what 500+ families say about Photopitaraa.',
 };
 
 const jsonLd = {
