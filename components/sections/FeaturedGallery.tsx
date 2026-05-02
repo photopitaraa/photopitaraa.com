@@ -14,6 +14,7 @@ import Badge from '@/components/ui/Badge';
 import { galleryItems, type GalleryItem } from '@/data/gallery';
 import { showcaseExtraTiles } from '@/data/showcaseExtras';
 import { GALLERY_GRID_PAGE_SIZE, slideOffsetBeforeItem } from '@/lib/galleryPagination';
+import { COVER_BLUR_DATA_URL } from '@/lib/imageBlurPlaceholder';
 import { scaleIn, staggerContainer } from '@/lib/motion';
 import { useInView } from 'framer-motion';
 
@@ -111,7 +112,7 @@ export default function FeaturedGallery() {
                     transition: 'transform 0.65s ease',
                   }}
                   placeholder="blur"
-                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABgUE/8QAIhAAAQMEAgMAAAAAAAAAAAAAAQIDBAURBhITFCH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8AjtzWmv1TXqk0Wr2yPT3p8WW6bkOqUElJ6TjsO3bPfB7YAXlbK62OsQjW6HWJUxiZMjBbzW0N+PQDhJHoD3GSBV9R//Z"
+                  blurDataURL={COVER_BLUR_DATA_URL}
                 />
                 <Box
                   className="overlay"

@@ -22,6 +22,10 @@ export interface GalleryItem {
   story?: string;
   couple?: string;
   venue?: string;
+  /** Landing slideshow only: hide location, title, and gallery link for image-only slides. */
+  slideshowHideCaptions?: boolean;
+  /** Omit from `HeroSlideshow` while keeping the story on `/portfolio`. */
+  hideFromHomeSlideshow?: boolean;
   width: number;
   height: number;
 }
@@ -39,10 +43,10 @@ export const galleryItems: GalleryItem[] = [
     coverImage: '/images/weddings/Couple1-Landscape.jpg',
     coverImagePortrait: '/images/weddings/Couple1-Portrait.jpg',
     images: [
-      '/images/wedding-1.jpg',
-      '/images/wedding-2.jpg',
-      '/images/wedding-3.jpg',
-      '/images/prewedding-1.jpg',
+      '/images/weddings/Couple1-Landscape.jpg',
+      '/images/weddings/Couple1-Portrait.jpg',
+      '/images/weddings/Couple1-Portrait.jpg',
+      '/images/weddings/Couple1-Portrait.jpg',
     ],
     story:
       'Arjun spotted Priya across a crowded terrace at a cousin\'s wedding three years before their own. He spent 40 minutes working up the courage to say hello. When he finally did, she already knew his name. We told their story in the golden light of the lake palace — every glance, every stolen laugh, every moment that proved some things are worth waiting for.',
@@ -71,19 +75,41 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '3',
-    slug: 'ananya-rohit-goa',
-    title: 'Ananya & Rohit',
+    slug: '',
+    title: '',
     category: 'Pre-Wedding',
-    location: 'Goa',
-    date: 'December 2024',
-    couple: 'Ananya & Rohit',
-    coverImage: '/images/prewedding-1.jpg',
+    location: '',
+    date: '',
+    couple: '',
+    coverImage: '/images/prewedding/Pre-Wedding1-Landscape.jpg',
+    coverImagePortrait: '/images/prewedding/Pre-Wedding1-Portrait.jpg',
     images: [
-      '/images/prewedding-1.jpg',
+      '/images/prewedding/Pre-Wedding1-Landscape.jpg',
+      '/images/prewedding/Pre-Wedding1-Portrait.jpg',
       '/images/prewedding-2.jpg',
     ],
     story:
       'Monsoon Goa. Empty beaches, golden hour light spilling across the water, and two people completely at ease with being themselves. This session was about the silence between the laughs — the comfortable kind.',
+    width: 800,
+    height: 600,
+  },
+  {
+    id: '3b',
+    slug: 'pre-wedding-2',
+    title: '',
+    category: 'Pre-Wedding',
+    location: '',
+    date: '',
+    couple: '',
+    coverImage: '/images/prewedding/Pre-Wedding2-Landscape.jpg',
+    coverImagePortrait: '/images/prewedding/Pre-Wedding2-Portrait.jpeg',
+    images: [
+      '/images/prewedding/Pre-Wedding2-Landscape.jpg',
+      '/images/prewedding/Pre-Wedding2-Portrait.jpeg',
+    ],
+    story:
+      'City lights, quiet streets, and two people finding their rhythm before the big day.',
+    slideshowHideCaptions: true,
     width: 800,
     height: 600,
   },
@@ -167,6 +193,7 @@ export const galleryItems: GalleryItem[] = [
     ],
     story:
       'A palace wedding bathed in marigold and candlelight. The ancient walls of Amer Fort held their vows like they\'d been waiting centuries for this particular love story.',
+    hideFromHomeSlideshow: true,
     width: 800,
     height: 600,
   },

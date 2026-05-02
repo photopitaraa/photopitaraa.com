@@ -15,12 +15,21 @@ type Props = {
 } & Omit<ImageProps, 'src' | 'alt'>;
 
 /** One optimized URL per viewport; pair with paginated grids so fewer images mount per page. */
-export default function ResponsiveGalleryCoverImage({ item, sizes, fill, alt, ...rest }: Props) {
+export default function ResponsiveGalleryCoverImage({
+  item,
+  sizes,
+  fill,
+  alt,
+  quality = 70,
+  ...rest
+}: Props) {
   const src = useGalleryCoverSrc(item);
   const label = alt ?? item.title;
 
   if (fill) {
-    return <Image key={src} src={src} alt={label} fill sizes={sizes} {...rest} />;
+    return (
+      <Image key={src} src={src} alt={label} fill sizes={sizes} quality={quality} {...rest} />
+    );
   }
 
   const { width: w, height: h, ...sizedRest } = rest;
@@ -32,6 +41,7 @@ export default function ResponsiveGalleryCoverImage({ item, sizes, fill, alt, ..
       width={w ?? item.width}
       height={h ?? item.height}
       sizes={sizes}
+      quality={quality}
       {...sizedRest}
     />
   );
