@@ -22,6 +22,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { navbarVariantsUnified, drawerLinkVariants, easeOut } from '@/lib/motion';
 import { siteConfig } from '@/data/siteConfig';
 import { galleryCategories, type GalleryCategory } from '@/data/gallery';
+import { homePageContainerGutterSx } from '@/lib/homePageGutters';
 
 const MotionAppBar = motion.create(AppBar);
 
@@ -49,6 +50,7 @@ function navLinkActive(href: string, pathname: string) {
 
 export default function Navbar() {
   const pathname = usePathname();
+  const homePageGutters = pathname === '/';
   const [mobileOpen, setMobileOpen] = useState(false);
   const [portfolioAnchor, setPortfolioAnchor] = useState<null | HTMLElement>(null);
   const scrolled = useScrollTrigger({ threshold: 48, disableHysteresis: true });
@@ -82,7 +84,7 @@ export default function Navbar() {
         transition={{ duration: 0.35, ease: easeOut }}
         sx={{ zIndex: 1100 }}
       >
-        <Container maxWidth="xl">
+        <Container maxWidth="xl" sx={homePageGutters ? homePageContainerGutterSx : undefined}>
           <Box
             sx={{
               display: 'flex',

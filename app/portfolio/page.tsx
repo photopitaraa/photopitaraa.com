@@ -6,13 +6,13 @@ import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryC
 import Link from 'next/link';
 import { Box, Container, Pagination, Stack, Tab, Tabs, Typography } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
-import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
+import LazyLightbox from '@/components/lightbox/LazyLightbox';
 import SectionHeading from '@/components/ui/SectionHeading';
 import Badge from '@/components/ui/Badge';
 import CTABanner from '@/components/sections/CTABanner';
 import { galleryItems, galleryCategories, type GalleryCategory } from '@/data/gallery';
+import { galleryCategoryLabel, interleaveGalleryItemsByCategory } from '@/lib/featuredGalleryOrder';
+import { GALLERY_GRID_COVER_QUALITY, GALLERY_GRID_COVER_SIZES } from '@/lib/galleryImageDefaults';
 import { GALLERY_GRID_PAGE_SIZE } from '@/lib/galleryPagination';
 import { scaleIn } from '@/lib/motion';
 
@@ -35,7 +35,7 @@ function PortfolioInner() {
   const filtered = useMemo(
     () =>
       activeCategory === 'All'
-        ? galleryItems
+        ? interleaveGalleryItemsByCategory(galleryItems)
         : galleryItems.filter((g) => g.category === activeCategory),
     [activeCategory],
   );
@@ -123,7 +123,7 @@ function PortfolioInner() {
             }}
           >
             {galleryCategories.map((cat) => (
-              <Tab key={cat} label={cat} value={cat} />
+              <Tab key={cat} label={cat === 'All' ? 'All' : galleryCategoryLabel(cat)} value={cat} />
             ))}
           </Tabs>
         </Container>
@@ -162,7 +162,8 @@ function PortfolioInner() {
                   >
                     <ResponsiveGalleryCoverImage
                       item={item}
-                      sizes="(max-width: 768px) 100vw, 33vw"
+                      sizes={GALLERY_GRID_COVER_SIZES}
+                      quality={GALLERY_GRID_COVER_QUALITY}
                       style={{ width: '100%', height: 'auto', display: 'block', transition: 'transform 0.55s ease' }}
                     />
                     <Box
@@ -180,7 +181,7 @@ function PortfolioInner() {
                         gap: 0.75,
                       }}
                     >
-                      <Badge variant="gold" label={item.category} />
+                      <Badge variant="gold" label={galleryCategoryLabel(item.category)} />
                       <Typography sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, fontSize: '1.05rem', color: '#EBF5FB' }}>
                         {item.title}
                       </Typography>
@@ -235,12 +236,14 @@ function PortfolioInner() {
 
       <CTABanner />
 
-      <Lightbox
+      <LazyLightbox
         open={lightboxIndex >= 0}
-        close={() => setLightboxIndex(-1)}
+        close={() => {
+          setLightboxIndex(-1);
+          setLightboxImages([]);
+        }}
         index={lightboxIndex}
         slides={lightboxImages}
-        render={{ slide: NextLightboxSlide }}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.97)' } }}
       />
     </>

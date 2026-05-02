@@ -5,17 +5,11 @@ import Link from 'next/link';
 import { Box, Container, Grid, Typography } from '@mui/material';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Favorite, Videocam, CameraAlt, Cake, ChildCare, PregnantWoman, BusinessCenter, MenuBook } from '@mui/icons-material';
-import type { SvgIconComponent } from '@mui/icons-material';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import { services } from '@/data/services';
 import { fadeUp, staggerContainer } from '@/lib/motion';
-
-const iconMap: Record<string, SvgIconComponent> = {
-  Favorite, Videocam, CameraAlt, Cake, ChildCare, PregnantWoman, BusinessCenter, MenuBook,
-};
 
 export default function ServicesPreview() {
   const ref = useRef(null);
@@ -39,8 +33,6 @@ export default function ServicesPreview() {
         >
           <Grid container spacing={3}>
             {services.slice(0, 6).map((service) => {
-              const IconComponent = (iconMap[service.icon] ?? CameraAlt) as React.ElementType;
-
               return (
                 <Grid item xs={12} sm={6} md={4} key={service.slug}>
                   <motion.div variants={fadeUp} style={{ height: '100%' }}>
@@ -78,22 +70,6 @@ export default function ServicesPreview() {
                               background: 'linear-gradient(to top, rgba(2,30,50,0.5) 0%, transparent 60%)',
                             }}
                           />
-                          <Box
-                            sx={{
-                              position: 'absolute',
-                              bottom: 12,
-                              left: 16,
-                              width: 36,
-                              height: 36,
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              backgroundColor: 'gold.main',
-                              borderRadius: '50%',
-                            }}
-                          >
-                            <IconComponent sx={{ color: '#fff', fontSize: 18 }} />
-                          </Box>
                         </Box>
 
                         <Box sx={{ p: 3 }}>

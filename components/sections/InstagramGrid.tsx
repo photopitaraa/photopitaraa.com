@@ -9,23 +9,37 @@ import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import { siteConfig } from '@/data/siteConfig';
 import { scaleIn, staggerContainer } from '@/lib/motion';
-import { picsumUrl, SHOWCASE_DUMMY_SEEDS } from '@/lib/mediaPlaceholders';
+import { NEW_IMAGE_FILES, newImageUrl } from '@/lib/newImagesUrls';
 
-const localIg = [
-  { src: '/images/wedding-1.jpg', alt: 'Wedding ceremony' },
-  { src: '/images/prewedding-1.jpg', alt: 'Pre-wedding shoot' },
-  { src: '/images/wedding-3.jpg', alt: 'Couple portrait' },
-  { src: '/images/maternity-1.jpg', alt: 'Maternity session' },
+/** Mix canonical wedding folders + exports from New Images — no dummy domains. */
+const highlightIg = [
+  { src: '/images/weddings/Couple1-Landscape.jpg', alt: 'Wedding ceremony' },
+  { src: '/images/prewedding/Pre-Wedding1-Landscape.jpg', alt: 'Pre-wedding shoot' },
+  { src: newImageUrl('1000000183.jpg.jpeg'), alt: 'Couple portrait' },
+  { src: newImageUrl('1000047980.jpg.jpeg'), alt: 'Maternity portrait' },
   { src: '/images/weddings/Couple2-Landscape.jpg', alt: 'Wedding reception' },
-  { src: '/images/birthday-1.jpg', alt: 'Birthday celebration' },
+  { src: newImageUrl('1000163046.jpg.jpeg'), alt: 'Birthday celebration' },
 ];
 
-const extraIg = SHOWCASE_DUMMY_SEEDS.slice(0, 12).map((seed, i) => ({
-  src: picsumUrl(seed, 640, 640),
-  alt: `Behind the scenes ${i + 1}`,
-}));
+const gridSlots = 18;
+const extraNeeded = Math.max(0, gridSlots - highlightIg.length);
+const feedExtras = NEW_IMAGE_FILES.filter(
+  (f) =>
+    ![
+      '1000000183.jpg.jpeg',
+      '1000047980.jpg.jpeg',
+      '1000163046.jpg.jpeg',
+      '1000001028.jpg.jpeg',
+    ].includes(f),
+).slice(0, extraNeeded);
 
-const igImages = [...localIg, ...extraIg];
+const igImages = [
+  ...highlightIg,
+  ...feedExtras.map((f, i) => ({
+    src: newImageUrl(f),
+    alt: `From our galleries ${i + 1}`,
+  })),
+];
 
 export default function InstagramGrid() {
   const ref = useRef(null);
@@ -37,7 +51,7 @@ export default function InstagramGrid() {
         <SectionHeading
           eyebrow="@photopitaraa"
           title="On the gram"
-          subtitle="A wider feed of frames — real celebrations and placeholder tiles you can replace with exports."
+          subtitle="A wider feed of frames — recent celebrations and portraits from our galleries."
         />
         <GoldDivider my={6} />
 

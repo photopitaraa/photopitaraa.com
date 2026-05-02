@@ -1,7 +1,6 @@
 export interface Service {
   slug: string;
   title: string;
-  icon: string;
   shortDescription: string;
   description: string;
   features: string[];
@@ -11,11 +10,10 @@ export interface Service {
 
 export const services: Service[] = [
   {
-    slug: 'wedding-photography',
-    title: 'Wedding Photography',
-    icon: 'Favorite',
+    slug: '',
+    title: '',
     shortDescription:
-      'Timeless, editorial storytelling from your first look to the last slow dance.',
+      'Photopitaraa – Where moments become magic.',
     description:
       'We arrive before the henna dries and stay until the stars come out. Every detail — the trembling hands before the pheras, the grandmother dabbing her eyes, the flower girl who forgot her cue — is woven into a visual narrative that is entirely, unrepeatably yours.',
     features: [
@@ -26,15 +24,14 @@ export const services: Service[] = [
       'High-resolution edited images (800+)',
       'Rush delivery available',
     ],
-    coverImage: '/images/wedding-1.jpg',
+    coverImage: '/images/weddings/Couple1-Landscape.jpg',
     category: 'Wedding',
   },
   {
-    slug: 'cinematic-films',
-    title: 'Cinematic Films',
-    icon: 'Videocam',
+    slug: '',
+    title: '',
     shortDescription:
-      'Feature-length wedding films scored to your love story — not a slideshow, a cinematic memoir.',
+      'Not just photos, we create feelings.',
     description:
       'Our cinematographers think in frames and feel in music. The result is a film your grandchildren will sit down to watch — one that captures how it sounded, how the evening air felt, how the room erupted when you walked in.',
     features: [
@@ -46,14 +43,13 @@ export const services: Service[] = [
       'Digital delivery + USB',
     ],
     coverImage: '/images/weddings/Couple2-Landscape.jpg',
-    category: 'Wedding',
+    category: 'Engagement',
   },
   {
-    slug: 'pre-wedding',
-    title: 'Pre-Wedding Shoot',
-    icon: 'CameraAlt',
+    slug: '',
+    title: '',
     shortDescription:
-      'Location shoots crafted around your chemistry — mountains, markets, or monsoon streets.',
+      'Every click tells your story.',
     description:
       'Before the ceremony comes the story of the two of you. Our pre-wedding sessions are unhurried conversations with a camera — we find locations that reflect your personality and create images that make you forget anyone was watching.',
     features: [
@@ -63,15 +59,14 @@ export const services: Service[] = [
       '150+ edited images',
       'Same-week preview gallery',
     ],
-    coverImage: '/images/prewedding-1.jpg',
+    coverImage: '/images/prewedding/Pre-Wedding1-Landscape.jpg',
     category: 'Pre-Wedding',
   },
   {
-    slug: 'birthday-photography',
-    title: 'Birthday Celebrations',
-    icon: 'Cake',
+    slug: '',
+    title: '',
     shortDescription:
-      'From the first slice of cake to the confetti-filled finale — every joy, documented.',
+      'We don’t shoot photos, we capture emotions.',
     description:
       "Milestone birthdays are chapters, not just dates. Whether it's a first birthday filled with smashed cake and wide eyes, or a 50th surrounded by everyone you love, we bring the same cinematic eye to every candle-lit moment.",
     features: [
@@ -80,15 +75,14 @@ export const services: Service[] = [
       'Candid + portrait mix',
       'Online gallery in 7 days',
     ],
-    coverImage: '/images/birthday-1.jpg',
+    coverImage: '/images/New%20Images/1000000183.jpg.jpeg',
     category: 'Celebration',
   },
   {
-    slug: 'baby-shower',
-    title: 'Baby Shower',
-    icon: 'ChildCare',
+    slug: '',
+    title: '',
     shortDescription:
-      'Soft light, soft smiles — the morning a family becomes a little larger.',
+      'Your story deserves more than just pictures.',
     description:
       "There's a particular magic in a room where everyone is waiting to love someone they haven't met yet. We document the warmth, the laughter, the shared excitement — every image glowing with anticipation.",
     features: [
@@ -97,13 +91,12 @@ export const services: Service[] = [
       'Flatlay & detail shots',
       'Gallery delivered in 5 days',
     ],
-    coverImage: '/images/events-1.jpg',
+    coverImage: '/images/New%20Images/1000325276.jpg.jpeg',
     category: 'Celebration',
   },
   {
-    slug: 'maternity',
-    title: 'Maternity Photography',
-    icon: 'PregnantWoman',
+    slug:'',
+    title: '',
     shortDescription:
       'The in-between — soft and sacred and worth holding onto forever.',
     description:
@@ -115,13 +108,12 @@ export const services: Service[] = [
       '100+ edited images',
       'Printed minibook (optional)',
     ],
-    coverImage: '/images/maternity-1.jpg',
+    coverImage: '/images/New%20Images/1000047980.jpg.jpeg',
     category: 'Celebration',
   },
   {
-    slug: 'corporate-events',
-    title: 'Corporate Events',
-    icon: 'BusinessCenter',
+    slug: '',
+    title: '',
     shortDescription:
       'Conference launches, product reveals, and team milestones — captured with precision and polish.',
     description:
@@ -133,13 +125,12 @@ export const services: Service[] = [
       'Fast 48-hour turnaround',
       'Commercial usage licence',
     ],
-    coverImage: '/images/corporate-1.jpg',
+    coverImage: '/images/New%20Images/1000053370.jpg.jpeg',
     category: 'Corporate',
   },
   {
-    slug: 'albums-prints',
-    title: 'Albums & Fine Prints',
-    icon: 'MenuBook',
+    slug: '',
+    title: '',
     shortDescription:
       'Handcrafted heirloom albums and museum-quality prints made to outlast a lifetime.',
     description:
@@ -151,7 +142,7 @@ export const services: Service[] = [
       'Canvas & metal prints',
       'Worldwide shipping',
     ],
-    coverImage: '/images/album-1.jpg',
+    coverImage: '/images/New%20Images/1000163046.jpg.jpeg',
     category: 'Products',
   },
 ];

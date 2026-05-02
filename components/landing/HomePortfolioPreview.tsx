@@ -4,26 +4,30 @@ import { useEffect, useMemo, useState } from 'react';
 import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Box, Chip, Container, Pagination, Stack, Typography } from '@mui/material';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
-import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
+import LazyLightbox from '@/components/lightbox/LazyLightbox';
 import Reveal from '@/components/ui/Reveal';
 import AnimatedButton from '@/components/ui/AnimatedButton';
-import { galleryItems, type GalleryCategory } from '@/data/gallery';
-import { GALLERY_GRID_PAGE_SIZE, slideOffsetBeforeItem } from '@/lib/galleryPagination';
+import { galleryCategories, galleryItems, type GalleryCategory } from '@/data/gallery';
+import { galleryCategoryLabel, interleaveGalleryItemsByCategory } from '@/lib/featuredGalleryOrder';
+import { HOME_PREVIEW_COVER_QUALITY, HOME_PREVIEW_COVER_SIZES } from '@/lib/galleryImageDefaults';
+import { GALLERY_GRID_PAGE_SIZE } from '@/lib/galleryPagination';
 import { easeOut } from '@/lib/motion';
 
-const previewCategories: GalleryCategory[] = ['All', 'Weddings', 'Pre-Wedding', 'Maternity', 'Birthday'];
+/** Matches `/portfolio` tabs so Baby/Kids & Events are reachable from home. */
+const previewCategories: GalleryCategory[] = galleryCategories;
+
+type LightboxSlideImage = { src: string; alt: string; width: number; height: number };
 
 export default function HomePortfolioPreview() {
   const [cat, setCat] = useState<GalleryCategory>('All');
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [lightboxSlides, setLightboxSlides] = useState<LightboxSlideImage[]>([]);
   const [page, setPage] = useState(1);
 
-  const filtered = useMemo(
-    () => (cat === 'All' ? galleryItems : galleryItems.filter((g) => g.category === cat)),
-    [cat],
-  );
+  const filtered = useMemo(() => {
+    if (cat === 'All') return interleaveGalleryItemsByCategory(galleryItems);
+    return galleryItems.filter((g) => g.category === cat);
+  }, [cat]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / GALLERY_GRID_PAGE_SIZE));
 
@@ -37,18 +41,16 @@ export default function HomePortfolioPreview() {
 
   const paginated = filtered.slice((page - 1) * GALLERY_GRID_PAGE_SIZE, page * GALLERY_GRID_PAGE_SIZE);
 
-  const slides = filtered.flatMap((item) =>
-    item.images.map((src) => ({
-      src,
-      alt: item.title,
-      width: item.width,
-      height: item.height,
-    })),
-  );
-
   const openAt = (item: (typeof galleryItems)[0]) => {
-    const idx = filtered.indexOf(item);
-    setLightboxIndex(slideOffsetBeforeItem(filtered, idx));
+    setLightboxSlides(
+      item.images.map((src) => ({
+        src,
+        alt: item.title || item.slug,
+        width: item.width,
+        height: item.height,
+      })),
+    );
+    setLightboxIndex(0);
   };
 
   return (
@@ -91,7 +93,7 @@ export default function HomePortfolioPreview() {
             {previewCategories.map((c) => (
               <Chip
                 key={c}
-                label={c === 'All' ? 'All' : c}
+                label={c === 'All' ? 'All' : galleryCategoryLabel(c)}
                 onClick={() => {
                   setCat(c);
                   setPage(1);
@@ -145,7 +147,8 @@ export default function HomePortfolioPreview() {
                   <ResponsiveGalleryCoverImage
                     item={item}
                     fill
-                    sizes="(max-width:768px) 100vw, 33vw"
+                    sizes={HOME_PREVIEW_COVER_SIZES}
+                    quality={HOME_PREVIEW_COVER_QUALITY}
                     style={{ objectFit: 'cover', transition: 'transform 0.5s ease' }}
                   />
                   <Box
@@ -199,12 +202,14 @@ export default function HomePortfolioPreview() {
         </Reveal>
       </Container>
 
-      <Lightbox
+      <LazyLightbox
         open={lightboxIndex >= 0}
-        close={() => setLightboxIndex(-1)}
+        close={() => {
+          setLightboxIndex(-1);
+          setLightboxSlides([]);
+        }}
         index={lightboxIndex}
-        slides={slides}
-        render={{ slide: NextLightboxSlide }}
+        slides={lightboxSlides}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.94)' } }}
       />
     </Box>

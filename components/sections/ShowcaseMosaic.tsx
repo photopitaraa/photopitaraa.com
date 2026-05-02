@@ -1,57 +1,45 @@
 'use client';
 
-import Image from 'next/image';
 import { Box, Typography } from '@mui/material';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import type { GalleryItem } from '@/data/gallery';
 import { galleryItems } from '@/data/gallery';
-import { showcaseExtraTiles } from '@/data/showcaseExtras';
+import { interleaveGalleryItemsByCategory } from '@/lib/featuredGalleryOrder';
 import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
-
-type PoolEntry =
-  | { kind: 'gallery'; item: GalleryItem }
-  | { kind: 'remote'; src: string; alt: string };
+import {
+  GALLERY_GRID_COVER_QUALITY,
+  SHOWCASE_MOSAIC_SIZES,
+} from '@/lib/galleryImageDefaults';
 
 const NEEDED = 14; // 15-cell grid minus the 1 text card
 
-const poolBase: PoolEntry[] = [
-  ...galleryItems.map((item) => ({ kind: 'gallery' as const, item })),
-  ...showcaseExtraTiles.map((t) => ({
-    kind: 'remote' as const,
-    src: t.coverImage,
-    alt: t.title,
-  })),
-];
+const orderedGallery = interleaveGalleryItemsByCategory(galleryItems);
 
-const picked: PoolEntry[] = poolBase.slice(0, NEEDED);
-while (picked.length < NEEDED) {
-  picked.push({
-    kind: 'remote',
-    src: `https://picsum.photos/seed/${picked.length + 300}/900/1200`,
-    alt: `Wedding moment ${picked.length + 1}`,
-  });
-}
+const picked: GalleryItem[] = Array.from({ length: NEEDED }, (_, i) => {
+  const item = orderedGallery[i % orderedGallery.length];
+  return item;
+});
 
 const CARD_INDEX = 7;
 
-type Cell = { kind: 'card' } | { kind: 'photo'; entry: PoolEntry };
+type Cell = { kind: 'card' } | { kind: 'photo'; item: GalleryItem };
 
 const cells: Cell[] = Array.from({ length: 15 }, (_, i): Cell => {
   if (i === CARD_INDEX) return { kind: 'card' };
   const pi = i < CARD_INDEX ? i : i - 1;
-  return { kind: 'photo', entry: picked[pi] };
+  return { kind: 'photo', item: picked[pi] };
 });
 
 export default function ShowcaseMosaic() {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+  const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
     <Box
       ref={ref}
       component="section"
-      aria-label="Iconic wedding images"
+      aria-label="Iconic images"
       sx={{
         display: 'grid',
         gridTemplateColumns: {
@@ -130,14 +118,13 @@ export default function ShowcaseMosaic() {
                   textTransform: 'uppercase',
                 }}
               >
-                wedding images
+                images
               </Typography>
             </Box>
           );
         }
 
-        const entry = cell.entry;
-        const photoKey = entry.kind === 'gallery' ? `g-${entry.item.id}-${i}` : `r-${entry.src}-${i}`;
+        const photoKey = `g-${cell.item.id}-${i}`;
 
         return (
           <Box
@@ -154,20 +141,24 @@ export default function ShowcaseMosaic() {
               '&:hover img': { transform: 'scale(1.06)' },
             }}
           >
-            {entry.kind === 'gallery' ? (
+            {inView ? (
               <ResponsiveGalleryCoverImage
-                item={entry.item}
+                item={cell.item}
                 fill
-                sizes="(max-width: 600px) 50vw, 20vw"
+                sizes={SHOWCASE_MOSAIC_SIZES}
+                quality={GALLERY_GRID_COVER_QUALITY}
                 style={{ objectFit: 'cover', transition: 'transform 0.75s ease' }}
               />
             ) : (
-              <Image
-                src={entry.src}
-                alt={entry.alt}
-                fill
-                sizes="(max-width: 600px) 50vw, 20vw"
-                style={{ objectFit: 'cover', transition: 'transform 0.75s ease' }}
+              <Box
+                aria-hidden
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  bgcolor: '#1c1c1c',
+                  background:
+                    'linear-gradient(145deg, rgba(34,34,34,1) 0%, rgba(18,18,18,1) 50%, rgba(28,28,28,1) 100%)',
+                }}
               />
             )}
           </Box>

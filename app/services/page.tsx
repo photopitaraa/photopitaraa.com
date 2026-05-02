@@ -1,24 +1,12 @@
 import type { Metadata } from 'next';
 import Image from 'next/image';
 import { Box, Container, Grid, List, ListItem, ListItemIcon, ListItemText, Typography } from '@mui/material';
-import { CheckCircle, Favorite, Videocam, CameraAlt, Cake, ChildCare, PregnantWoman, BusinessCenter, MenuBook } from '@mui/icons-material';
-import type { SvgIconComponent } from '@mui/icons-material';
+import { CheckCircle } from '@mui/icons-material';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import CTABanner from '@/components/sections/CTABanner';
 import { services, Service } from '@/data/services';
-
-const iconMap: Record<string, SvgIconComponent> = {
-  Favorite,
-  Videocam,
-  CameraAlt,
-  Cake,
-  ChildCare,
-  PregnantWoman,
-  BusinessCenter,
-  MenuBook,
-};
 
 export const metadata: Metadata = {
   title: 'Services',
@@ -27,8 +15,6 @@ export const metadata: Metadata = {
 };
 
 function ServiceCard({ service, reverse }: { service: Service; reverse?: boolean }) {
-  const IconComponent = (iconMap[service.icon] ?? CameraAlt) as React.ElementType;
-
   return (
     <Box
       id={service.slug}
@@ -62,6 +48,7 @@ function ServiceCard({ service, reverse }: { service: Service; reverse?: boolean
               alt={service.title}
               fill
               sizes="(max-width: 768px) 100vw, 42vw"
+              quality={68}
               style={{ objectFit: 'cover' }}
             />
           </Box>
@@ -69,21 +56,6 @@ function ServiceCard({ service, reverse }: { service: Service; reverse?: boolean
 
         {/* Content */}
         <Grid item xs={12} md={7}>
-          <Box
-            sx={{
-              width: 52,
-              height: 52,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'rgba(255,183,3,0.1)',
-              borderRadius: '50%',
-              mb: 3,
-            }}
-          >
-            <IconComponent sx={{ color: 'gold.main', fontSize: 24 }} />
-          </Box>
-
           <Typography
             variant="overline"
             sx={{ display: 'block', color: 'gold.main', fontSize: '0.65rem', letterSpacing: '0.2em', mb: 1.5 }}

@@ -4,41 +4,30 @@ import { useEffect, useRef, useState } from 'react';
 import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
 import { Box, Container, Pagination, Stack, Typography } from '@mui/material';
 import { motion } from 'framer-motion';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css';
-import NextLightboxSlide from '@/components/lightbox/NextLightboxSlide';
+import LazyLightbox from '@/components/lightbox/LazyLightbox';
 import SectionHeading from '@/components/ui/SectionHeading';
 import GoldDivider from '@/components/ui/GoldDivider';
 import AnimatedButton from '@/components/ui/AnimatedButton';
 import Badge from '@/components/ui/Badge';
 import { galleryItems, type GalleryItem } from '@/data/gallery';
-import { showcaseExtraTiles } from '@/data/showcaseExtras';
-import { GALLERY_GRID_PAGE_SIZE, slideOffsetBeforeItem } from '@/lib/galleryPagination';
+import {
+  galleryCategoryLabel,
+  interleaveGalleryItemsByCategory,
+} from '@/lib/featuredGalleryOrder';
+import { GALLERY_GRID_COVER_QUALITY, GALLERY_GRID_COVER_SIZES } from '@/lib/galleryImageDefaults';
+import { GALLERY_GRID_PAGE_SIZE } from '@/lib/galleryPagination';
 import { COVER_BLUR_DATA_URL } from '@/lib/imageBlurPlaceholder';
 import { scaleIn, staggerContainer } from '@/lib/motion';
 import { useInView } from 'framer-motion';
 
-const extras = showcaseExtraTiles.slice(0, 16);
-const featured: GalleryItem[] = [
-  ...galleryItems,
-  ...extras.map(
-    (t): GalleryItem => ({
-      id: t.id,
-      slug: t.id,
-      title: t.title,
-      category: t.category,
-      location: t.location,
-      date: t.date,
-      coverImage: t.coverImage,
-      images: t.images,
-      width: t.width,
-      height: t.height,
-    })
-  ),
-];
+/** Real shoots only — category-interleaved so Birthday / Events / Maternity / Baby show early. */
+const featured: GalleryItem[] = interleaveGalleryItemsByCategory(galleryItems);
+
+type LightboxSlideImage = { src: string; alt: string; width: number; height: number };
 
 export default function FeaturedGallery() {
   const [lightboxIndex, setLightboxIndex] = useState(-1);
+  const [lightboxSlides, setLightboxSlides] = useState<LightboxSlideImage[]>([]);
   const [page, setPage] = useState(1);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
@@ -51,15 +40,6 @@ export default function FeaturedGallery() {
 
   const pageOffset = (page - 1) * GALLERY_GRID_PAGE_SIZE;
   const paginatedFeatured = featured.slice(pageOffset, pageOffset + GALLERY_GRID_PAGE_SIZE);
-
-  const slides = featured.flatMap((item) =>
-    item.images.map((src) => ({
-      src,
-      alt: item.title,
-      width: item.width,
-      height: item.height,
-    })),
-  );
 
   return (
     <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
@@ -81,16 +61,22 @@ export default function FeaturedGallery() {
             columnGap: '12px',
           }}
         >
-          {paginatedFeatured.map((item, localIdx) => (
+          {paginatedFeatured.map((item) => (
             <motion.div
               key={`${page}-${item.id}`}
               variants={scaleIn}
               style={{ breakInside: 'avoid', marginBottom: 12, cursor: 'pointer' }}
-              onClick={() =>
-                setLightboxIndex(
-                  slideOffsetBeforeItem(featured, pageOffset + localIdx),
-                )
-              }
+              onClick={() => {
+                setLightboxSlides(
+                  item.images.map((src) => ({
+                    src,
+                    alt: item.title || item.slug,
+                    width: item.width,
+                    height: item.height,
+                  })),
+                );
+                setLightboxIndex(0);
+              }}
               data-cursor-grow
             >
               <Box
@@ -102,66 +88,81 @@ export default function FeaturedGallery() {
                   '&:hover img': { transform: 'scale(1.04)' },
                 }}
               >
-                <ResponsiveGalleryCoverImage
-                  item={item}
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  style={{
-                    width: '100%',
-                    height: 'auto',
-                    display: 'block',
-                    transition: 'transform 0.65s ease',
-                  }}
-                  placeholder="blur"
-                  blurDataURL={COVER_BLUR_DATA_URL}
-                />
-                <Box
-                  className="overlay"
-                  sx={{
-                    position: 'absolute',
-                    inset: 0,
-                    background: 'linear-gradient(to top, rgba(1,18,35,0.78) 0%, transparent 52%)',
-                    opacity: 0.72,
-                    transition: 'opacity 0.45s ease',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'flex-end',
-                    p: 2,
-                    gap: 0.5,
-                  }}
-                >
-                  <Typography
-                    variant="overline"
+                {inView ? (
+                  <>
+                    <ResponsiveGalleryCoverImage
+                      item={item}
+                      sizes={GALLERY_GRID_COVER_SIZES}
+                      quality={GALLERY_GRID_COVER_QUALITY}
+                      style={{
+                        width: '100%',
+                        height: 'auto',
+                        display: 'block',
+                        transition: 'transform 0.65s ease',
+                      }}
+                      placeholder="blur"
+                      blurDataURL={COVER_BLUR_DATA_URL}
+                    />
+                    <Box
+                      className="overlay"
+                      sx={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(to top, rgba(1,18,35,0.78) 0%, transparent 52%)',
+                        opacity: 0.72,
+                        transition: 'opacity 0.45s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'flex-end',
+                        p: 2,
+                        gap: 0.5,
+                      }}
+                    >
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          fontSize: '0.58rem',
+                          letterSpacing: '0.2em',
+                          color: 'rgba(235,245,251,0.55)',
+                        }}
+                      >
+                        {item.date}
+                      </Typography>
+                      <Badge variant="gold" label={galleryCategoryLabel(item.category)} />
+                      <Typography
+                        sx={{
+                          fontFamily: '"Cormorant Garamond", serif',
+                          fontWeight: 700,
+                          fontSize: '1.15rem',
+                          color: '#EBF5FB',
+                          lineHeight: 1.2,
+                        }}
+                      >
+                        {item.title}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontFamily: 'Inter, sans-serif',
+                          fontSize: '0.72rem',
+                          color: 'rgba(235,245,251,0.65)',
+                          letterSpacing: '0.06em',
+                        }}
+                      >
+                        {item.location}
+                      </Typography>
+                    </Box>
+                  </>
+                ) : (
+                  <Box
+                    aria-hidden
                     sx={{
-                      fontSize: '0.58rem',
-                      letterSpacing: '0.2em',
-                      color: 'rgba(235,245,251,0.55)',
+                      width: '100%',
+                      minHeight: 280,
+                      borderRadius: '2px',
+                      bgcolor: 'action.hover',
                     }}
-                  >
-                    {item.date}
-                  </Typography>
-                  <Badge variant="gold" label={item.category} />
-                  <Typography
-                    sx={{
-                      fontFamily: '"Cormorant Garamond", serif',
-                      fontWeight: 700,
-                      fontSize: '1.15rem',
-                      color: '#EBF5FB',
-                      lineHeight: 1.2,
-                    }}
-                  >
-                    {item.title}
-                  </Typography>
-                  <Typography
-                    sx={{
-                      fontFamily: 'Inter, sans-serif',
-                      fontSize: '0.72rem',
-                      color: 'rgba(235,245,251,0.65)',
-                      letterSpacing: '0.06em',
-                    }}
-                  >
-                    {item.location}
-                  </Typography>
-                </Box>
+                  />
+                )}
               </Box>
             </motion.div>
           ))}
@@ -191,12 +192,14 @@ export default function FeaturedGallery() {
         </Box>
       </Container>
 
-      <Lightbox
+      <LazyLightbox
         open={lightboxIndex >= 0}
-        close={() => setLightboxIndex(-1)}
+        close={() => {
+          setLightboxIndex(-1);
+          setLightboxSlides([]);
+        }}
         index={lightboxIndex}
-        slides={slides}
-        render={{ slide: NextLightboxSlide }}
+        slides={lightboxSlides}
         styles={{ container: { backgroundColor: 'rgba(2,30,50,0.94)' } }}
       />
     </Box>

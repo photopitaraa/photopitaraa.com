@@ -20,7 +20,7 @@ export default function ResponsiveGalleryCoverImage({
   sizes,
   fill,
   alt,
-  quality = 70,
+  quality = 62,
   ...rest
 }: Props) {
   const src = useGalleryCoverSrc(item);

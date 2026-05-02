@@ -23,7 +23,7 @@ export const testimonials: Testimonial[] = [
     eventType: 'Wedding',
     date: 'February 2025',
     platform: 'Google',
-    image: '/images/avatar-1.jpg',
+    image: '/images/New%20Images/1000000169.jpg.jpeg',
   },
   {
     id: '2',
@@ -35,7 +35,7 @@ export const testimonials: Testimonial[] = [
     eventType: 'Wedding + Film',
     date: 'January 2025',
     platform: 'Google',
-    image: '/images/avatar-2.jpg',
+    image: '/images/New%20Images/1000039704.jpg.jpeg',
   },
   {
     id: '3',
@@ -47,6 +47,7 @@ export const testimonials: Testimonial[] = [
     eventType: 'Birthday',
     date: 'September 2024',
     platform: 'Google',
+    image: '/images/New%20Images/1000325276.jpg.jpeg',
   },
   {
     id: '4',
@@ -58,7 +59,7 @@ export const testimonials: Testimonial[] = [
     eventType: 'Pre-Wedding',
     date: ' ',
     platform: 'Google',
-    image: '/images/avatar-3.jpg',
+    image: '/images/New%20Images/1000000289.jpg.jpeg',
   },
   {
     id: '5',
@@ -70,10 +71,11 @@ export const testimonials: Testimonial[] = [
     eventType: 'Maternity',
     date: 'October 2024',
     platform: 'WeddingWire',
+    image: '/images/New%20Images/1000047980.jpg.jpeg',
   },
   {
     id: '6',
-    name: 'Kavya & Vivek Iyer',
+    name: '  Iyer',
     role: 'Wedding clients',
     location: 'Jaipur',
     rating: 5,
@@ -81,7 +83,7 @@ export const testimonials: Testimonial[] = [
     eventType: 'Wedding',
     date: 'March 2025',
     platform: 'Google',
-    image: '/images/avatar-4.jpg',
+    image: '/images/New%20Images/1000111171.jpg.jpeg',
   },
   {
     id: '7',
@@ -93,5 +95,6 @@ export const testimonials: Testimonial[] = [
     eventType: 'Wedding',
     date: 'November 2024',
     platform: 'Direct',
+    image: '/images/New%20Images/1000000234.jpg.jpeg',
   },
 ];

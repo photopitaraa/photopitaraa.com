@@ -29,7 +29,7 @@ export const blogPosts: BlogPost[] = [
     author: 'Aryan Sharma',
     date: 'April 10, 2025',
     readTime: '6 min read',
-    coverImage: '/images/blog-1.jpg',
+    coverImage: '/images/New%20Images/1000000169.jpg.jpeg',
     tags: ['Wedding', 'Tips', 'Preparation', 'Photography'],
     content: [
       {
@@ -69,7 +69,7 @@ export const blogPosts: BlogPost[] = [
     author: 'Riya Kapoor',
     date: 'March 22, 2025',
     readTime: '4 min read',
-    coverImage: '/images/blog-2.jpg',
+    coverImage: '/images/New%20Images/1000000287.jpg.jpeg',
     tags: ['Golden Hour', 'Lighting', 'Photography', 'Tips'],
     content: [
       {
@@ -86,9 +86,9 @@ export const blogPosts: BlogPost[] = [
       },
       {
         type: 'image',
-        src: '/images/wedding-3.jpg',
+        src: '/images/New%20Images/1000000183.jpg.jpeg',
         alt: 'Couple photographed in golden hour light',
-        caption: 'Kavya & Vivek — Jaipur, March 2025',
+        caption: '',
       },
     ],
   },
@@ -102,7 +102,7 @@ export const blogPosts: BlogPost[] = [
     author: 'Aryan Sharma',
     date: 'February 14, 2025',
     readTime: '5 min read',
-    coverImage: '/images/blog-3.jpg',
+    coverImage: '/images/New%20Images/1000163046.jpg.jpeg',
     tags: ['Albums', 'Wedding', 'Design', 'Storytelling'],
     content: [
       {
@@ -129,7 +129,7 @@ export const blogPosts: BlogPost[] = [
     author: 'Riya Kapoor',
     date: 'January 30, 2025',
     readTime: '8 min read',
-    coverImage: '/images/blog-4.jpg',
+    coverImage: '/images/New%20Images/1000000290.jpg.jpeg',
     tags: ['Destination Wedding', 'Travel', 'Planning', 'Rajasthan'],
     content: [
       {

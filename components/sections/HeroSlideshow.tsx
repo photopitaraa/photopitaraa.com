@@ -5,19 +5,36 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Box, Container, Typography } from '@mui/material';
 import { AnimatePresence, motion } from 'framer-motion';
-import { homeHeroSlideEntries as slideEntries } from '@/lib/homeSlideshow';
+import {
+  homeHeroSlideEntries as slideEntries,
+  isHomeHeroPromoSlide,
+  type HomeHeroSlideEntry,
+} from '@/lib/homeSlideshow';
 import { optimizedStaticImageHref } from '@/lib/heroImage';
 import { COVER_BLUR_DATA_URL } from '@/lib/imageBlurPlaceholder';
 import { pickGalleryCoverSrc } from '@/lib/responsiveGalleryCover';
-import {
-  useGalleryCoverSrc,
-  usePreferPortraitGalleryCover,
-} from '@/hooks/useResponsiveGalleryCover';
+import { usePreferPortraitGalleryCover } from '@/hooks/useResponsiveGalleryCover';
 import { siteConfig } from '@/data/siteConfig';
 
 const HOLD_MS   = 7000;
 const ANIM_S    = 1.2;
 const EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
+
+const PROMO_HEADLINE = 'Be Our Next Cover';
+
+function useHeroSlideCoverSrc(active: HomeHeroSlideEntry): string | null {
+  const preferPortrait = usePreferPortraitGalleryCover();
+  if (isHomeHeroPromoSlide(active)) return null;
+  return pickGalleryCoverSrc(active, preferPortrait);
+}
+
+function nextGallerySlideAfter(entries: HomeHeroSlideEntry[], fromIdx: number) {
+  for (let step = 1; step <= entries.length; step++) {
+    const e = entries[(fromIdx + step) % entries.length];
+    if (!isHomeHeroPromoSlide(e)) return e;
+  }
+  return null;
+}
 
 // ── Framer variants ───────────────────────────────────────────────────────────
 const clipVariants = {
@@ -160,19 +177,22 @@ export default function HeroSlideshow() {
   const prev = useCallback(() => go(current - 1), [go, current]);
 
   const slide = slideEntries[current];
-  const heroCoverSrc = useGalleryCoverSrc(slide);
-  const captionless = Boolean(slide.slideshowHideCaptions);
-  const slideAlt =
-    slide.title?.trim() ||
-    (captionless ? `Pre-wedding photography — ${siteConfig.name}` : 'Featured photography');
+  const heroCoverSrc = useHeroSlideCoverSrc(slide);
+  const isPromoSlide = isHomeHeroPromoSlide(slide);
+  const captionless = !isPromoSlide && Boolean(slide.slideshowHideCaptions);
+  const slideAlt = isPromoSlide
+    ? `${PROMO_HEADLINE} — ${siteConfig.name}`
+    : slide.title?.trim() ||
+      (captionless ? `Pre-wedding photography — ${siteConfig.name}` : 'Featured photography');
   const preferPortraitCover = usePreferPortraitGalleryCover();
 
   /** Warm next autoplay slide after idle — avoids competing with above-the-fold hero. */
   useEffect(() => {
     let linkEl: HTMLLinkElement | null = null;
     const attach = () => {
-      const nextIdx = (current + 1) % slideEntries.length;
-      const rawPath = pickGalleryCoverSrc(slideEntries[nextIdx], preferPortraitCover);
+      const nextGallery = nextGallerySlideAfter(slideEntries, current);
+      if (!nextGallery) return;
+      const rawPath = pickGalleryCoverSrc(nextGallery, preferPortraitCover);
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const vw = Math.min(window.innerWidth, 1920);
       const w = Math.min(1920, Math.max(640, Math.round(vw * dpr)));
@@ -257,20 +277,40 @@ export default function HeroSlideshow() {
             exit="exit"
             style={{ position: 'absolute', inset: '-8%' }}
           >
-            <Image
-              key={heroCoverSrc}
-              src={heroCoverSrc}
-              alt={slideAlt}
-              fill
-              sizes="100vw"
-              quality={70}
-              placeholder="blur"
-              blurDataURL={COVER_BLUR_DATA_URL}
-              style={{ objectFit: 'cover' }}
-            />
+            {heroCoverSrc ? (
+              <Image
+                key={heroCoverSrc}
+                src={heroCoverSrc}
+                alt={slideAlt}
+                fill
+                sizes="100vw"
+                quality={70}
+                placeholder="blur"
+                blurDataURL={COVER_BLUR_DATA_URL}
+                style={{ objectFit: 'cover' }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  inset: 0,
+                  background:
+                    'linear-gradient(148deg, #161616 0%, #0c0c0c 42%, #141008 72%, #111111 100%)',
+                  '&::after': {
+                    content: '""',
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: 0.07,
+                    backgroundImage: 'url(/noise.png)',
+                    backgroundSize: '200px',
+                    pointerEvents: 'none',
+                  },
+                }}
+              />
+            )}
           </motion.div>
 
-          {!captionless && (
+          {isPromoSlide ? (
             <>
               <Box
                 aria-hidden
@@ -278,109 +318,201 @@ export default function HeroSlideshow() {
                   position: 'absolute',
                   inset: 0,
                   background:
-                    'linear-gradient(135deg, rgba(17,17,17,0.72) 0%, rgba(17,17,17,0.3) 60%, rgba(17,17,17,0.15) 100%)',
+                    'radial-gradient(ellipse 85% 65% at 50% 45%, rgba(200,164,106,0.09) 0%, transparent 65%)',
+                  zIndex: 2,
+                  pointerEvents: 'none',
                 }}
               />
-              <Box
-                aria-hidden
+              <Container
+                maxWidth="lg"
                 sx={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'linear-gradient(to top, rgba(17,17,17,0.55) 0%, transparent 45%)',
+                  zIndex: 3,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  px: { xs: 3, md: 4 },
+                  pointerEvents: 'none',
+                  '& a': { pointerEvents: 'auto' },
                 }}
-              />
-            </>
-          )}
-          {captionless ? (
-            <Box
-              aria-hidden
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                background: 'linear-gradient(to top, rgba(17,17,17,0.22) 0%, transparent 42%)',
-              }}
-            />
-          ) : null}
-
-          {!captionless && (
-            <Container
-              maxWidth="xl"
-              sx={{
-                position: 'absolute',
-                inset: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'flex-end',
-                pb: { xs: 14, md: 16 },
-                overflow: 'hidden',
-              }}
-            >
-              <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
-                <Typography
-                  variant="overline"
-                  sx={{
-                    display: 'block',
-                    color: 'rgba(200,164,106,0.9)',
-                    fontSize: '0.65rem',
-                    letterSpacing: '0.28em',
-                    mb: 1.5,
-                  }}
-                >
-                  {slide.location}
-                </Typography>
-              </motion.div>
-
-              <Box sx={{ overflow: 'hidden' }}>
+              >
                 <motion.div variants={captionVariants} initial="enter" animate="center" exit="exit">
                   <Typography
                     variant="h1"
                     sx={{
-                      fontSize: { xs: '2.4rem', sm: '3.5rem', md: '5rem', lg: '6rem' },
-                      fontWeight: 700,
-                      lineHeight: 1,
-                      mb: 3,
-                      maxWidth: { xs: '100%', md: '65%' },
-                      textShadow: '0 2px 24px rgba(17,17,17,0.4)',
+                      fontFamily: '"Cormorant Garamond", serif',
+                      fontSize: { xs: '2.75rem', sm: '4rem', md: '5.25rem', lg: '6rem' },
+                      fontWeight: 600,
+                      lineHeight: 1.08,
+                      mb: 4,
+                      maxWidth: 920,
+                      textShadow: '0 4px 40px rgba(0,0,0,0.35)',
+                      '& .promo-script': {
+                        fontFamily: '"Cormorant Garamond", serif',
+                        fontStyle: 'italic',
+                        fontWeight: 500,
+                        color: 'rgba(232,202,170,0.95)',
+                      },
                     }}
                   >
-                    {slide.title}
+                    Be Our Next{' '}
+                    <Box component="span" className="promo-script">
+                      Cover
+                    </Box>
                   </Typography>
                 </motion.div>
-              </Box>
-
-              <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
-                <Link href={`/portfolio/${slide.slug}`} style={{ display: 'inline-block' }}>
-                  <Typography
-                    component="span"
+                <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
+                  <Link href="/contact" style={{ display: 'inline-block' }}>
+                    <Typography
+                      component="span"
+                      sx={{
+                        fontFamily: 'Poppins, sans-serif',
+                        fontSize: '0.7rem',
+                        fontWeight: 500,
+                        letterSpacing: '0.18em',
+                        textTransform: 'uppercase',
+                        color: 'rgba(255,255,255,0.88)',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 1.5,
+                        '&::before': {
+                          content: '""',
+                          display: 'inline-block',
+                          width: 28,
+                          height: 1,
+                          backgroundColor: '#C8A46A',
+                          transition: 'transform 0.3s ease',
+                          transformOrigin: 'left',
+                        },
+                        '&:hover::before': { transform: 'scaleX(1.65)' },
+                        '&:hover': { color: '#C8A46A' },
+                        transition: 'color 0.3s ease',
+                      }}
+                    >
+                      Enquire now
+                    </Typography>
+                  </Link>
+                </motion.div>
+              </Container>
+            </>
+          ) : (
+            <>
+              {!captionless && (
+                <>
+                  <Box
+                    aria-hidden
                     sx={{
-                      fontFamily: 'Poppins, sans-serif',
-                      fontSize: '0.7rem',
-                      fontWeight: 500,
-                      letterSpacing: '0.18em',
-                      textTransform: 'uppercase',
-                      color: 'rgba(255,255,255,0.85)',
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      gap: 1.5,
-                      '&::before': {
-                        content: '""',
-                        display: 'inline-block',
-                        width: 28,
-                        height: 1,
-                        backgroundColor: '#C8A46A',
-                        transition: 'transform 0.3s ease',
-                        transformOrigin: 'left',
-                      },
-                      '&:hover::before': { transform: 'scaleX(1.65)' },
-                      '&:hover': { color: '#C8A46A' },
-                      transition: 'color 0.3s ease',
+                      position: 'absolute',
+                      inset: 0,
+                      background:
+                        'linear-gradient(135deg, rgba(17,17,17,0.72) 0%, rgba(17,17,17,0.3) 60%, rgba(17,17,17,0.15) 100%)',
                     }}
-                  >
-                    View gallery
-                  </Typography>
-                </Link>
-              </motion.div>
-            </Container>
+                  />
+                  <Box
+                    aria-hidden
+                    sx={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'linear-gradient(to top, rgba(17,17,17,0.55) 0%, transparent 45%)',
+                    }}
+                  />
+                </>
+              )}
+              {captionless ? (
+                <Box
+                  aria-hidden
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(17,17,17,0.22) 0%, transparent 42%)',
+                  }}
+                />
+              ) : null}
+
+              {!captionless && (
+                <Container
+                  maxWidth="xl"
+                  sx={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'flex-end',
+                    pb: { xs: 14, md: 16 },
+                    overflow: 'hidden',
+                  }}
+                >
+                  <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
+                    <Typography
+                      variant="overline"
+                      sx={{
+                        display: 'block',
+                        color: 'rgba(200,164,106,0.9)',
+                        fontSize: '0.65rem',
+                        letterSpacing: '0.28em',
+                        mb: 1.5,
+                      }}
+                    >
+                      {slide.location}
+                    </Typography>
+                  </motion.div>
+
+                  <Box sx={{ overflow: 'hidden' }}>
+                    <motion.div variants={captionVariants} initial="enter" animate="center" exit="exit">
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          fontSize: { xs: '2.4rem', sm: '3.5rem', md: '5rem', lg: '6rem' },
+                          fontWeight: 700,
+                          lineHeight: 1,
+                          mb: 3,
+                          maxWidth: { xs: '100%', md: '65%' },
+                          textShadow: '0 2px 24px rgba(17,17,17,0.4)',
+                        }}
+                      >
+                        {slide.title}
+                      </Typography>
+                    </motion.div>
+                  </Box>
+
+                  <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
+                    <Link href={`/portfolio/${slide.slug}`} style={{ display: 'inline-block' }}>
+                      <Typography
+                        component="span"
+                        sx={{
+                          fontFamily: 'Poppins, sans-serif',
+                          fontSize: '0.7rem',
+                          fontWeight: 500,
+                          letterSpacing: '0.18em',
+                          textTransform: 'uppercase',
+                          color: 'rgba(255,255,255,0.85)',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 1.5,
+                          '&::before': {
+                            content: '""',
+                            display: 'inline-block',
+                            width: 28,
+                            height: 1,
+                            backgroundColor: '#C8A46A',
+                            transition: 'transform 0.3s ease',
+                            transformOrigin: 'left',
+                          },
+                          '&:hover::before': { transform: 'scaleX(1.65)' },
+                          '&:hover': { color: '#C8A46A' },
+                          transition: 'color 0.3s ease',
+                        }}
+                      >
+                        View gallery
+                      </Typography>
+                    </Link>
+                  </motion.div>
+                </Container>
+              )}
+            </>
           )}
         </motion.div>
       </AnimatePresence>

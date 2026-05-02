@@ -5,6 +5,7 @@ import { LocationOn, CalendarMonth } from '@mui/icons-material';
 import Badge from '@/components/ui/Badge';
 import ResponsiveGalleryCoverImage from '@/components/gallery/ResponsiveGalleryCoverImage';
 import type { GalleryItem } from '@/data/gallery';
+import { galleryCategoryLabel } from '@/lib/featuredGalleryOrder';
 
 export default function PortfolioStoryHero({ item }: { item: GalleryItem }) {
   return (
@@ -37,7 +38,7 @@ export default function PortfolioStoryHero({ item }: { item: GalleryItem }) {
           left: { xs: 24, md: 56 },
         }}
       >
-        <Badge variant="gold" label={item.category} sx={{ mb: 2 }} />
+        <Badge variant="gold" label={galleryCategoryLabel(item.category)} sx={{ mb: 2 }} />
         <Typography
           variant="h1"
           sx={{

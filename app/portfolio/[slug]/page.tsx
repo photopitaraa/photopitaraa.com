@@ -16,7 +16,7 @@ interface Props {
 
 export async function generateStaticParams() {
   return galleryItems
-    .filter((g) => g.story)
+    .filter((g) => g.story && g.slug)
     .map((g) => ({ slug: g.slug }));
 }
 

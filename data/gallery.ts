@@ -1,3 +1,5 @@
+import { newImagesGalleryItems } from './newImagesGallery.generated';
+
 export type GalleryCategory =
   | 'All'
   | 'Weddings'
@@ -75,7 +77,7 @@ export const galleryItems: GalleryItem[] = [
   },
   {
     id: '3',
-    slug: '',
+    slug: 'pre-wedding-goa',
     title: '',
     category: 'Pre-Wedding',
     location: '',
@@ -86,7 +88,7 @@ export const galleryItems: GalleryItem[] = [
     images: [
       '/images/prewedding/Pre-Wedding1-Landscape.jpg',
       '/images/prewedding/Pre-Wedding1-Portrait.jpg',
-      '/images/prewedding-2.jpg',
+      '/images/New%20Images/1000000288.jpg.jpeg',
     ],
     story:
       'Monsoon Goa. Empty beaches, golden hour light spilling across the water, and two people completely at ease with being themselves. This session was about the silence between the laughs — the comfortable kind.',
@@ -120,10 +122,8 @@ export const galleryItems: GalleryItem[] = [
     category: 'Birthday',
     location: 'Pune, Maharashtra',
     date: 'November 2024',
-    coverImage: '/images/birthday-1.jpg',
-    images: [
-      '/images/birthday-1.jpg',
-    ],
+    coverImage: '/images/New%20Images/1000163046.jpg.jpeg',
+    images: ['/images/New%20Images/1000163046.jpg.jpeg'],
     story:
       'Fifty years of grace, grit, and joy — celebrated with the people who made her who she is. We documented every toast, every tear, every grandchild rushing in for a hug.',
     width: 800,
@@ -136,10 +136,8 @@ export const galleryItems: GalleryItem[] = [
     category: 'Maternity',
     location: 'Mumbai, Maharashtra',
     date: 'October 2024',
-    coverImage: '/images/maternity-1.jpg',
-    images: [
-      '/images/maternity-1.jpg',
-    ],
+    coverImage: '/images/New%20Images/1000047980.jpg.jpeg',
+    images: ['/images/New%20Images/1000047980.jpg.jpeg'],
     story:
       'Seven months of quiet anticipation, captured in soft morning light at their home. Naina told us she wanted to remember exactly how it felt — the weight, the wonder, the certainty that her whole world was about to change.',
     width: 800,
@@ -152,10 +150,8 @@ export const galleryItems: GalleryItem[] = [
     category: 'Events',
     location: 'Delhi',
     date: 'September 2024',
-    coverImage: '/images/events-1.jpg',
-    images: [
-      '/images/events-1.jpg',
-    ],
+    coverImage: '/images/New%20Images/1000325432.jpg.jpeg',
+    images: ['/images/New%20Images/1000325432.jpg.jpeg'],
     story:
       'Three generations of the Sharma family gathered to welcome the newest member. The room was filled with colour, food, and the kind of happiness that spills out of people when they\'re not trying to contain it.',
     width: 800,
@@ -168,10 +164,9 @@ export const galleryItems: GalleryItem[] = [
     category: 'Kids',
     location: 'Bangalore, Karnataka',
     date: 'August 2024',
-    coverImage: '/images/kids-1.jpg',
-    images: [
-      '/images/kids-1.jpg',
-    ],
+    coverImage: '/images/New%20Images/1000001028.jpg.jpeg',
+    coverImagePortrait: '/images/New%20Images/1000001030.jpg.jpeg',
+    images: ['/images/New%20Images/1000001028.jpg.jpeg', '/images/New%20Images/1000001030.jpg.jpeg'],
     story:
       'He had no idea what the fuss was about. But the second that cake arrived, his eyes said everything. First birthdays aren\'t really for the baby — they\'re for the parents who made it through the first year and deserve a proper celebration.',
     width: 800,
@@ -180,23 +175,25 @@ export const galleryItems: GalleryItem[] = [
   {
     id: '8',
     slug: 'kavya-vivek-jaipur',
-    title: 'Kavya & Vivek',
+    title: ' ',
     category: 'Weddings',
-    location: 'Jaipur, Rajasthan',
-    date: 'March 2025',
-    couple: 'Kavya & Vivek',
-    venue: 'Amer Fort, Jaipur',
-    coverImage: '/images/wedding-3.jpg',
+    location: ' ',
+    date: ' ',
+    couple: ' ',
+    venue: ' ',
+    coverImage: '/images/New%20Images/1000000183.jpg.jpeg',
+    coverImagePortrait: '/images/New%20Images/1000111171.jpg.jpeg',
     images: [
-      '/images/wedding-3.jpg',
-      '/images/wedding-1.jpg',
+      '/images/New%20Images/1000000183.jpg.jpeg',
+      '/images/New%20Images/1000111171.jpg.jpeg',
+      '/images/New%20Images/1000039704.jpg.jpeg',
     ],
     story:
       'A palace wedding bathed in marigold and candlelight. The ancient walls of Amer Fort held their vows like they\'d been waiting centuries for this particular love story.',
-    hideFromHomeSlideshow: true,
-    width: 800,
-    height: 600,
+    width: 6720,
+    height: 4480,
   },
+  ...newImagesGalleryItems,
 ];
 
 export const galleryCategories: GalleryCategory[] = [

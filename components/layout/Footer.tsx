@@ -1,8 +1,12 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Box, Container, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { Instagram, YouTube, Facebook, Pinterest } from '@mui/icons-material';
 import { siteConfig } from '@/data/siteConfig';
 import { serviceCities } from '@/data/serviceCities';
+import { homePageContainerGutterSx } from '@/lib/homePageGutters';
 
 const footerLinks = [
   { label: 'About', href: '/about' },
@@ -21,6 +25,8 @@ const socialIcons = [
 ];
 
 export default function Footer() {
+  const pathname = usePathname();
+
   return (
     <Box
       component="footer"
@@ -32,7 +38,7 @@ export default function Footer() {
         borderTop: '1px solid rgba(2,48,71,0.08)',
       }}
     >
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={pathname === '/' ? homePageContainerGutterSx : undefined}>
         <Grid container spacing={{ xs: 5, md: 6 }}>
           <Grid item xs={12} md={4}>
             <Typography variant="h5" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, mb: 2 }}>

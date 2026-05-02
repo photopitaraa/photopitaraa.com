@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import { LIGHTBOX_SLIDE_QUALITY } from '@/lib/galleryImageDefaults';
 import {
   isImageFitCover,
   isImageSlide,
@@ -64,7 +65,8 @@ export default function NextLightboxSlide({ slide, offset, rect }: Props) {
         src={slide.src}
         alt={slide.alt ?? ''}
         fill
-        loading="eager"
+        loading={Math.abs(offset) <= 1 ? 'eager' : 'lazy'}
+        quality={LIGHTBOX_SLIDE_QUALITY}
         draggable={false}
         sizes={`${vw}vw`}
         style={{
