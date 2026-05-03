@@ -116,7 +116,7 @@ export default function HeroSection() {
                   mb: 3,
                 }}
               >
-                Photography · Mumbai &amp; beyond
+                Photography · Indore &amp; beyond
               </Typography>
             </motion.div>
 

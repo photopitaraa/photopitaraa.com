@@ -76,7 +76,7 @@ export const services: Service[] = [
       'Online gallery in 7 days',
     ],
     coverImage: '/images/New%20Images/1000000183.jpg.jpeg',
-    category: 'Celebration',
+    category: 'Wedding',
   },
   {
     slug: '',
@@ -92,7 +92,7 @@ export const services: Service[] = [
       'Gallery delivered in 5 days',
     ],
     coverImage: '/images/New%20Images/1000325276.jpg.jpeg',
-    category: 'Celebration',
+    category: 'Engagement',
   },
   {
     slug:'',

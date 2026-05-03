@@ -1,16 +1,16 @@
 export const siteConfig = {
-  name: 'photopitaraa',
+  name: 'Photopitaraa',
   tagline: 'Where Every Frame Tells a Love Story',
   description:
-    'Award-winning wedding & celebration photography studio based in Mumbai. We capture the quiet glances, the tears of joy, and the laughter between dances — the moments that make your story yours.',
-  phone: '+91 98765 43210',
+    'Award-winning wedding & celebration photography studio based in Indore, Madhya Pradesh. We capture the quiet glances, the tears of joy, and the laughter between dances — the moments that make your story yours.',
+  phone: '+91 90390 19193',
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '919XXXXXXXXX',
   email: 'photopitaraa@gmail.com',
   address: {
-    line1: '42, Linking Road, Bandra West',
-    city: 'Mumbai',
-    state: 'Maharashtra',
-    pin: '400050',
+    line1: '201, Johri mansion, 56 Dukaan',
+    city: 'Indore',
+    state: 'Madhya Pradesh',
+    pin: '',
     country: 'India',
   },
   workingHours: {
@@ -33,3 +33,10 @@ export const siteConfig = {
     { value: 100, suffix: '%', label: '5-Star Reviews' },
   ],
 };
+
+/** Full studio address for maps, contact cards, and embed search. */
+export function getStudioAddressLine() {
+  const { line1, city, state, pin, country } = siteConfig.address;
+  const locality = [city, state].filter(Boolean).join(', ');
+  return [line1, locality, pin, country].filter(Boolean).join(', ');
+}

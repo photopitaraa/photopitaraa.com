@@ -1,5 +1,14 @@
 import { siteConfig } from '@/data/siteConfig';
 
+const businessPostalAddress = {
+  '@type': 'PostalAddress' as const,
+  streetAddress: siteConfig.address.line1,
+  addressLocality: siteConfig.address.city,
+  addressRegion: siteConfig.address.state,
+  addressCountry: 'IN',
+  ...(siteConfig.address.pin ? { postalCode: siteConfig.address.pin } : {}),
+};
+
 export default function SchemaOrg() {
   const schema = {
     '@context': 'https://schema.org',
@@ -30,18 +39,11 @@ export default function SchemaOrg() {
         telephone: siteConfig.phone,
         email: siteConfig.email,
         image: `${siteConfig.url}/og-image.jpg`,
-        address: {
-          '@type': 'PostalAddress',
-          streetAddress: siteConfig.address.line1,
-          addressLocality: siteConfig.address.city,
-          addressRegion: siteConfig.address.state,
-          postalCode: siteConfig.address.pin,
-          addressCountry: 'IN',
-        },
+        address: businessPostalAddress,
         geo: {
           '@type': 'GeoCoordinates',
-          latitude: '19.0596',
-          longitude: '72.8295',
+          latitude: '22.7196',
+          longitude: '75.8577',
         },
         openingHoursSpecification: [
           {

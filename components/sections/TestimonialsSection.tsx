@@ -22,7 +22,7 @@ export default function TestimonialsSection() {
       component="section"
       py={{ xs: 10, md: 14 }}
       sx={{
-        backgroundColor: '#fff',
+        bgcolor: 'background.default',
         backgroundImage: 'radial-gradient(ellipse 80% 50% at 50% -10%, rgba(33,158,188,0.1), transparent 55%)',
       }}
     >
@@ -100,7 +100,7 @@ export default function TestimonialsSection() {
                     sx={{
                       p: 4,
                       height: '100%',
-                      backgroundColor: '#fff',
+                      bgcolor: 'background.paper',
                       border: '1px solid rgba(255,183,3,0.15)',
                       borderRadius: '6px',
                       display: 'flex',

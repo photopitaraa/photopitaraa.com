@@ -10,11 +10,11 @@ import { siteConfig } from '@/data/siteConfig';
 export const metadata: Metadata = {
   title: 'About Us',
   description:
-    'Meet the team behind Photopitaraa — Mumbai\'s award-winning wedding photography studio. 8 years, 500+ weddings, and a relentless passion for visual storytelling.',
+    'Meet the team behind Photopitaraa — Indore\'s award-winning wedding photography studio. 8 years, 500+ weddings, and a relentless passion for visual storytelling.',
 };
 
 const milestones = [
-  { year: '2016', title: 'Studio Founded', description: 'Photopitaraa opens its doors in Bandra, Mumbai — a one-person operation with one camera and a deep belief that wedding photography could be something more.' },
+  { year: '2016', title: 'Studio Founded', description: 'Photopitaraa opens its doors in Indore — a one-person operation with one camera and a deep belief that wedding photography could be something more.' },
   { year: '2018', title: 'First Award', description: 'Recognised at the India Wedding Industry Awards as Best Wedding Photographer of the Year. The first of twelve.' },
   { year: '2020', title: '100th Wedding', description: 'We photograph our 100th wedding — a quiet destination event in Coorg — and release our first cinematic film to 200,000 YouTube views.' },
   { year: '2022', title: 'Studio Expansion', description: 'The team grows to six: two lead photographers, two cinematographers, and two editors. Every couple still gets personal, dedicated attention.' },
@@ -23,10 +23,10 @@ const milestones = [
 
 const team = [
   {
-    name: 'Aryan Sharma',
+    name: 'Kartik Patidar',
     role: 'Founder & Lead Photographer',
-    bio: 'Aryan started Photopitaraa after spending three years shooting street photography in Mumbai. He believes the best wedding images are stolen, not staged.',
-    image: '/images/team-1.jpg',
+    bio: 'Kartik started Photo Pitaraa after spending three years shooting street photography in Indore. He believes the best wedding images are stolen, not staged.',
+    image: '/images/CEO.jpeg',
   },
   {
     name: 'Riya Kapoor',
@@ -104,7 +104,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Founder story — split layout */}
-      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 6, md: 10 }} alignItems="center">
             <Grid item xs={12} md={5}>
@@ -118,8 +118,8 @@ export default function AboutPage() {
                 }}
               >
                 <Image
-                  src="/images/about-founder.jpg"
-                  alt="Aryan Sharma — Founder of Photopitaraa"
+                  src="/images/CEO.jpeg"
+                  alt="Kartik Patidar — Founder of Photo Pitaraa"
                   fill
                   sizes="(max-width: 768px) 100vw, 42vw"
                   style={{ objectFit: 'cover' }}
@@ -135,7 +135,7 @@ export default function AboutPage() {
                 The Founder
               </Typography>
               <Typography variant="h2" sx={{ mb: 3, fontSize: { xs: '1.8rem', md: '2.4rem' } }}>
-                Hi, I&apos;m Aryan.
+                Hi, I&apos;m Kartik.
               </Typography>
               <Typography sx={{ fontFamily: 'Inter, sans-serif', fontSize: '1rem', lineHeight: 1.85, color: 'text.secondary', mb: 3 }}>
                 I picked up a camera at nineteen because I was afraid of forgetting things. The feeling of a particular afternoon, the way my grandmother laughed, the light in the kitchen at six o&apos;clock. I didn&apos;t want to lose any of it.
@@ -147,7 +147,7 @@ export default function AboutPage() {
                 Photopitaraa is the studio I needed when I got married and couldn&apos;t find. Everything we do is built around the question: if these were my photographs, would I be proud?
               </Typography>
               <AnimatedButton variant="outlined" href="/contact">
-                Work with Aryan
+                Work with Kartik
               </AnimatedButton>
             </Grid>
           </Grid>
@@ -179,7 +179,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Timeline */}
-      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           <SectionHeading
             eyebrow="Our Journey"
@@ -309,7 +309,7 @@ export default function AboutPage() {
       </Box>
 
       {/* Press strip */}
-      <Box py={{ xs: 6, md: 8 }} sx={{ backgroundColor: '#FAF8F5', borderTop: '1px solid rgba(255,183,3,0.15)' }}>
+      <Box py={{ xs: 6, md: 8 }} sx={{ bgcolor: 'background.default', borderTop: '1px solid', borderColor: 'divider' }}>
         <Container maxWidth="xl">
           <Typography
             variant="overline"

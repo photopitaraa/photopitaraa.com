@@ -144,11 +144,30 @@ export default function WhyChooseUs() {
 
       <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1 }}>
         <SectionHeading
-          eyebrow="Why Photopitaraa"
+          eyebrow="Why choosing us"
           title="We Don't Just Photograph. We Bear Witness."
           subtitle="There are thousands of photographers. We chose to be storytellers — obsessive, disciplined, and genuinely moved by every love story we're invited into."
           light
         />
+        <Box sx={{ maxWidth: 720, mx: 'auto', textAlign: 'center', px: { xs: 1, md: 0 }, mb: 5 }}>
+          <Typography
+            component="blockquote"
+            sx={{
+              fontFamily: '"Cormorant Garamond", serif',
+              fontStyle: 'italic',
+              fontSize: { xs: '1.28rem', md: '1.55rem' },
+              color: 'rgba(235,245,251,0.88)',
+              lineHeight: 1.65,
+              m: 0,
+              borderLeft: '3px solid',
+              borderColor: 'gold.main',
+              pl: { xs: 2.5, md: 3 },
+              textAlign: 'left',
+            }}
+          >
+            Capturing the moments of today that will warm your heart tomorrow — because a wedding is not only a day, it is the beginning of how you remember each other.
+          </Typography>
+        </Box>
         <GoldDivider my={6} />
 
         {/* Stats row */}

@@ -94,7 +94,7 @@ function PortfolioInner() {
 
       <Box
         sx={{
-          backgroundColor: '#FAF8F5',
+          bgcolor: 'background.default',
           borderBottom: '1px solid rgba(2,48,71,0.08)',
           position: 'sticky',
           top: 56,
@@ -129,7 +129,7 @@ function PortfolioInner() {
         </Container>
       </Box>
 
-      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 8, md: 12 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <AnimatePresence mode="wait">
             <motion.div
@@ -254,7 +254,7 @@ export default function PortfolioPage() {
   return (
     <Suspense
       fallback={
-        <Box sx={{ minHeight: '70vh', bgcolor: '#FAF8F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <Box sx={{ minHeight: '70vh', bgcolor: 'background.default', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Typography color="text.secondary">Loading portfolio…</Typography>
         </Box>
       }

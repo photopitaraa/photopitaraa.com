@@ -42,7 +42,7 @@ export default function FeaturedGallery() {
   const paginatedFeatured = featured.slice(pageOffset, pageOffset + GALLERY_GRID_PAGE_SIZE);
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
       <Container maxWidth="xl">
         <SectionHeading
           eyebrow="Featured"

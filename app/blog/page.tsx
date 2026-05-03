@@ -41,7 +41,7 @@ export default function BlogPage() {
         </Container>
       </Box>
 
-      <Box py={{ xs: 8, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 8, md: 14 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           {/* Featured post */}
           <Link href={`/blog/${featured.slug}`}>

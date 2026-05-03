@@ -46,7 +46,7 @@ export default function InstagramGrid() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
       <Container maxWidth="xl">
         <SectionHeading
           eyebrow="@photopitaraa"

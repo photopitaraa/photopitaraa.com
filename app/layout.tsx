@@ -3,7 +3,7 @@ import ThemeRegistry from '@/styles/ThemeRegistry';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import CursorFollower from '@/components/layout/CursorFollower';
-import WhatsAppFloat from '@/components/layout/WhatsAppFloat';
+import SocialExpandFloat from '@/components/layout/SocialExpandFloat';
 import LenisProvider from '@/components/layout/LenisProvider';
 import SchemaOrg from '@/components/layout/SchemaOrg';
 import SkipLink from '@/components/layout/SkipLink';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   keywords: [
-    'wedding photography Mumbai',
+    'wedding photography Indore',
     'wedding photographer India',
     'cinematic wedding films',
     'pre-wedding shoot',
@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600&family=Great+Vibes&family=Inter:wght@300;400;500&family=Poppins:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
@@ -87,7 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Navbar />
           <main id="main-content">{children}</main>
           <Footer />
-          <WhatsAppFloat />
+          <SocialExpandFloat />
         </ThemeRegistry>
       </body>
     </html>

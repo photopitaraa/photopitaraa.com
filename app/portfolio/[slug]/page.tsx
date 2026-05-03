@@ -60,7 +60,7 @@ export default function PortfolioStoryPage({ params }: Props) {
       <PortfolioStoryHero item={item} />
 
       {/* Story */}
-      <Box py={{ xs: 8, md: 12 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 8, md: 12 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="lg">
           {item.venue && (
             <Typography

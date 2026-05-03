@@ -3,12 +3,21 @@ import { Box, Container, Grid, Stack, Typography } from '@mui/material';
 import { Email, LocationOn, Phone, Schedule } from '@mui/icons-material';
 import ContactForm from '@/components/forms/ContactForm';
 import GoldDivider from '@/components/ui/GoldDivider';
-import { siteConfig } from '@/data/siteConfig';
+import { getStudioAddressLine, siteConfig } from '@/data/siteConfig';
 
 export const metadata: Metadata = {
   title: 'Contact & Booking',
   description:
-    'Get in touch with Photopitaraa to check availability and book your photography session. Based in Mumbai — serving weddings across India.',
+    'Get in touch with Photopitaraa to check availability and book your photography session. Based in Indore — serving weddings across India.',
+};
+
+const jsonLdPostalAddress = {
+  '@type': 'PostalAddress',
+  streetAddress: siteConfig.address.line1,
+  addressLocality: siteConfig.address.city,
+  addressRegion: siteConfig.address.state,
+  addressCountry: 'IN',
+  ...(siteConfig.address.pin ? { postalCode: siteConfig.address.pin } : {}),
 };
 
 const jsonLd = {
@@ -20,14 +29,7 @@ const jsonLd = {
   url: siteConfig.url,
   telephone: siteConfig.phone,
   email: siteConfig.email,
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: siteConfig.address.line1,
-    addressLocality: siteConfig.address.city,
-    addressRegion: siteConfig.address.state,
-    postalCode: siteConfig.address.pin,
-    addressCountry: 'IN',
-  },
+  address: jsonLdPostalAddress,
   openingHoursSpecification: [
     {
       '@type': 'OpeningHoursSpecification',
@@ -55,8 +57,8 @@ const contactDetails = [
   {
     icon: LocationOn,
     label: 'Studio',
-    value: `${siteConfig.address.line1}, ${siteConfig.address.city}`,
-    href: `https://maps.google.com/?q=${encodeURIComponent(siteConfig.address.line1 + ', ' + siteConfig.address.city)}`,
+    value: getStudioAddressLine(),
+    href: `https://maps.google.com/?q=${encodeURIComponent(getStudioAddressLine())}`,
   },
   {
     icon: Schedule,
@@ -121,7 +123,7 @@ export default function ContactPage() {
       </Box>
 
       {/* Split layout: form + info */}
-      <Box py={{ xs: 8, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 8, md: 14 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <Grid container spacing={{ xs: 6, md: 10 }}>
             {/* Form */}
@@ -222,14 +224,17 @@ export default function ContactPage() {
           {/* Google Map */}
           <Box sx={{ mt: 10, borderRadius: '8px', overflow: 'hidden', height: { xs: 280, md: 380 }, border: '1px solid rgba(255,183,3,0.15)' }}>
             <iframe
-              src={process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ?? 'https://maps.google.com/maps?q=Bandra+West+Mumbai&output=embed'}
+              src={
+                process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL ??
+                `https://maps.google.com/maps?q=${encodeURIComponent(getStudioAddressLine())}&output=embed`
+              }
               width="100%"
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               title="Photopitaraa Studio Location"
-              aria-label="Google Map showing Photopitaraa studio location in Bandra West, Mumbai"
+              aria-label={`Google Map showing Photopitaraa studio location: ${getStudioAddressLine()}`}
             />
           </Box>
         </Container>

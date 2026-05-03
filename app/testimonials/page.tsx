@@ -93,7 +93,7 @@ export default function TestimonialsPage() {
       </Box>
 
       {/* Full-bleed hero quote */}
-      <Box py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <Box
             sx={{

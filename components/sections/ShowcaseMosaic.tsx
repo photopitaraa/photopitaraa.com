@@ -21,7 +21,11 @@ const picked: GalleryItem[] = Array.from({ length: NEEDED }, (_, i) => {
   return item;
 });
 
-const CARD_INDEX = 7;
+/**
+ * Card sits at DOM index 6: six photos first (avoids 2-col orphan gap on xs).
+ * Explicit placement centers the card on sm (3 cols) and md (5 cols); xs keeps full-width span.
+ */
+const CARD_INDEX = 6;
 
 type Cell = { kind: 'card' } | { kind: 'photo'; item: GalleryItem };
 
@@ -66,8 +70,18 @@ export default function ShowcaseMosaic() {
               animate={inView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
               sx={{
-                gridColumn: { xs: 'span 2', sm: 'span 1' },
+                gridColumn: {
+                  xs: 'span 2',
+                  sm: '2 / 3',
+                  md: '3 / 4',
+                },
+                gridRow: {
+                  xs: 'auto',
+                  sm: '3 / 4',
+                  md: '2 / 3',
+                },
                 height: { xs: 'auto', md: '100%' },
+                minHeight: { xs: 160, sm: 200 },
                 backgroundColor: '#F6EFE7',
                 display: 'flex',
                 flexDirection: 'column',
@@ -76,6 +90,7 @@ export default function ShowcaseMosaic() {
                 textAlign: 'center',
                 px: { xs: 3, md: 2.5 },
                 py: { xs: 5, md: 2 },
+                zIndex: 1,
               }}
             >
               <Typography

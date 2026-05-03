@@ -26,7 +26,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "The secret to great wedding photography isn't perfect hair or flawless light — it's the hour before the ceremony when everything feels like it might fall apart. Here's how to make that hour work for you.",
     category: 'Wedding Tips',
-    author: 'Aryan Sharma',
+    author: 'Kartik Patidar',
     date: 'April 10, 2025',
     readTime: '6 min read',
     coverImage: '/images/New%20Images/1000000169.jpg.jpeg',
@@ -47,7 +47,7 @@ export const blogPosts: BlogPost[] = [
       {
         type: 'quote',
         text: "The most beautiful images don't happen when everyone is ready. They happen in the ten minutes before, when the emotion is still unguarded.",
-        attribution: 'Aryan Sharma, Founder',
+        attribution: 'Kartik Patidar, Founder',
       },
       {
         type: 'heading',
@@ -99,7 +99,7 @@ export const blogPosts: BlogPost[] = [
     excerpt:
       "Most couples choose images for their album based on how they look in them. The best albums are sequenced for how they make you feel. That distinction changes everything.",
     category: 'Albums & Prints',
-    author: 'Aryan Sharma',
+    author: 'Kartik Patidar',
     date: 'February 14, 2025',
     readTime: '5 min read',
     coverImage: '/images/New%20Images/1000163046.jpg.jpeg',

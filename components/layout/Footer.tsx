@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation';
 import { Box, Container, Divider, Grid, IconButton, Stack, Typography } from '@mui/material';
 import { Instagram, YouTube, Facebook, Pinterest } from '@mui/icons-material';
 import { siteConfig } from '@/data/siteConfig';
-import { serviceCities } from '@/data/serviceCities';
 import { homePageContainerGutterSx } from '@/lib/homePageGutters';
 
 const footerLinks = [
@@ -31,18 +30,19 @@ export default function Footer() {
     <Box
       component="footer"
       sx={{
-        bgcolor: '#FAF8F5',
+        bgcolor: 'background.default',
         color: 'text.primary',
         pt: { xs: 8, md: 10 },
         pb: 4,
-        borderTop: '1px solid rgba(2,48,71,0.08)',
+        borderTop: '1px solid',
+        borderColor: 'divider',
       }}
     >
       <Container maxWidth="xl" sx={pathname === '/' ? homePageContainerGutterSx : undefined}>
         <Grid container spacing={{ xs: 5, md: 6 }}>
           <Grid item xs={12} md={4}>
-            <Typography variant="h5" sx={{ fontFamily: '"Cormorant Garamond", serif', fontWeight: 700, mb: 2 }}>
-              Photo<Box component="span" sx={{ color: 'gold.main' }}>pitaraa</Box>
+            <Typography variant="h5" sx={{ fontFamily: '"Great Vibes", cursive', fontWeight: 400, mb: 2, fontSize: '2.1rem', lineHeight: 1.15 }}>
+              {siteConfig.name}
             </Typography>
             <Typography sx={{ color: 'text.secondary', lineHeight: 1.8, maxWidth: 320, mb: 2 }}>
               {siteConfig.description}
@@ -59,7 +59,8 @@ export default function Footer() {
                   size="small"
                   sx={{
                     color: 'text.secondary',
-                    border: '1px solid rgba(2,48,71,0.12)',
+                    border: '1px solid',
+                    borderColor: 'divider',
                     '&:hover': { color: 'gold.main', borderColor: 'gold.main' },
                   }}
                 >
@@ -69,7 +70,7 @@ export default function Footer() {
             </Stack>
           </Grid>
 
-          <Grid item xs={6} md={2}>
+          <Grid item xs={12} md={2}>
             <Typography variant="overline" sx={{ color: 'gold.main', letterSpacing: '0.18em', display: 'block', mb: 2 }}>
               Quick links
             </Typography>
@@ -84,17 +85,78 @@ export default function Footer() {
             </Stack>
           </Grid>
 
-          <Grid item xs={6} md={3}>
+          <Grid item xs={12} md={3}>
             <Typography variant="overline" sx={{ color: 'gold.main', letterSpacing: '0.18em', display: 'block', mb: 2 }}>
-              We travel
+              Pan India
             </Typography>
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-              {serviceCities.map((city) => (
-                <Typography key={city} component="span" sx={{ fontSize: '0.78rem', color: 'text.secondary', mr: 1 }}>
-                  {city}
+            <Stack
+              direction={{ xs: 'column', md: 'row' }}
+              alignItems={{ xs: 'center', md: 'center' }}
+              spacing={{ xs: 2, md: 2.25 }}
+              aria-label="Pan India photography coverage"
+              sx={{
+                p: { xs: 2.25, sm: 2.5, md: 2.25 },
+                borderRadius: '6px',
+                border: '1px solid',
+                borderColor: 'rgba(200,164,106,0.22)',
+                width: '100%',
+                maxWidth: { xs: 420, sm: 'none' },
+                mx: { xs: 'auto', md: 0 },
+                background: (theme) =>
+                  theme.palette.mode === 'dark'
+                    ? 'linear-gradient(160deg, rgba(200,164,106,0.08) 0%, rgba(17,17,17,0.2) 55%, transparent 100%)'
+                    : 'linear-gradient(160deg, rgba(2,48,71,0.06) 0%, rgba(255,255,255,0.5) 100%)',
+              }}
+            >
+              <Box
+                component="img"
+                src="/icons/india-outline.svg"
+                alt=""
+                width={56}
+                height={66}
+                loading="lazy"
+                decoding="async"
+                sx={{
+                  width: { xs: 64, md: 56 },
+                  height: { xs: 75, md: 66 },
+                  flexShrink: 0,
+                  objectFit: 'contain',
+                  opacity: 0.98,
+                  filter: (theme) =>
+                    theme.palette.mode === 'dark'
+                      ? 'drop-shadow(0 0 12px rgba(200,164,106,0.28))'
+                      : 'drop-shadow(0 1px 2px rgba(2,48,71,0.12))',
+                }}
+              />
+              <Box sx={{ minWidth: 0, width: '100%', textAlign: { xs: 'center', md: 'left' } }}>
+                <Typography
+                  sx={{
+                    fontFamily: '"Cormorant Garamond", serif',
+                    fontWeight: 600,
+                    fontSize: { xs: '1.2rem', sm: '1.28rem', md: '1.25rem' },
+                    letterSpacing: { xs: '0.02em', md: '0.06em' },
+                    color: 'text.primary',
+                    lineHeight: 1.3,
+                    mb: 0.75,
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                  }}
+                >
+                  {'India-wide & destination'}
                 </Typography>
-              ))}
-            </Box>
+                <Typography
+                  sx={{
+                    fontSize: { xs: '0.8rem', md: '0.78rem' },
+                    color: 'text.secondary',
+                    lineHeight: 1.65,
+                    maxWidth: { xs: '100%', md: 280 },
+                    mx: { xs: 'auto', md: 0 },
+                  }}
+                >
+                  From our studio in {siteConfig.address.city} to celebrations anywhere your story takes you.
+                </Typography>
+              </Box>
+            </Stack>
           </Grid>
 
           <Grid item xs={12} md={3}>
@@ -110,19 +172,39 @@ export default function Footer() {
             <Typography sx={{ fontSize: '0.85rem', color: 'text.secondary', lineHeight: 1.7 }}>
               {siteConfig.address.line1}
               <br />
-              {siteConfig.address.city}, {siteConfig.address.state} {siteConfig.address.pin}
+              {siteConfig.address.city}, {siteConfig.address.state}
+              {siteConfig.address.pin ? ` ${siteConfig.address.pin}` : ''}
             </Typography>
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 5, borderColor: 'rgba(2,48,71,0.08)' }} />
+        <Divider sx={{ my: 5 }} />
 
-        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, justifyContent: 'space-between', alignItems: 'center', gap: 2 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: 2,
+            textAlign: { xs: 'center', sm: 'inherit' },
+          }}
+        >
           <Typography sx={{ fontSize: '0.8rem', color: 'text.secondary' }}>
             © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </Typography>
-          <Link href="/contact" style={{ textDecoration: 'none' }}>
-            <Typography sx={{ fontSize: '0.75rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'gold.dark' }}>
+          <Link href="/contact" style={{ textDecoration: 'none', maxWidth: '100%' }}>
+            <Typography
+              sx={{
+                fontSize: { xs: '0.72rem', sm: '0.75rem' },
+                letterSpacing: { xs: '0.08em', sm: '0.12em' },
+                textTransform: 'uppercase',
+                color: 'gold.dark',
+                whiteSpace: { xs: 'normal', sm: 'nowrap' },
+                textAlign: { xs: 'center', sm: 'inherit' },
+                lineHeight: 1.45,
+              }}
+            >
               Enquiries &amp; availability
             </Typography>
           </Link>

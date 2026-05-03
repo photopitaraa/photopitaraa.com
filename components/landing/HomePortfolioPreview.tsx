@@ -54,7 +54,7 @@ export default function HomePortfolioPreview() {
   };
 
   return (
-    <Box component="section" sx={{ py: { xs: 8, md: 11 }, bgcolor: '#FAF8F5' }}>
+    <Box component="section" sx={{ py: { xs: 8, md: 11 }, bgcolor: 'background.default' }}>
       <Container maxWidth="xl">
         <Reveal>
           <Typography

@@ -180,6 +180,10 @@ export default function HeroSlideshow() {
   const heroCoverSrc = useHeroSlideCoverSrc(slide);
   const isPromoSlide = isHomeHeroPromoSlide(slide);
   const captionless = !isPromoSlide && Boolean(slide.slideshowHideCaptions);
+  const hasCaptionText =
+    !isPromoSlide && 'title' in slide && Boolean(slide.title?.trim() || slide.location?.trim());
+  /** Heavy scrims were applied whenever `slideshowHideCaptions` was false — including slides with blank title/location, which washed the image out. */
+  const useHeavyCaptionScrim = !captionless && hasCaptionText;
   const slideAlt = isPromoSlide
     ? `${PROMO_HEADLINE} — ${siteConfig.name}`
     : slide.title?.trim() ||
@@ -199,7 +203,7 @@ export default function HeroSlideshow() {
       const link = document.createElement('link');
       link.rel = 'prefetch';
       link.as = 'image';
-      link.href = optimizedStaticImageHref(rawPath, w, 70);
+      link.href = optimizedStaticImageHref(rawPath, w, 78);
       document.head.appendChild(link);
       linkEl = link;
     };
@@ -284,10 +288,13 @@ export default function HeroSlideshow() {
                 alt={slideAlt}
                 fill
                 sizes="100vw"
-                quality={70}
+                quality={78}
                 placeholder="blur"
                 blurDataURL={COVER_BLUR_DATA_URL}
-                style={{ objectFit: 'cover' }}
+                style={{
+                  objectFit: 'cover',
+                  filter: 'contrast(1.06) saturate(1.07) brightness(1.03)',
+                }}
               />
             ) : (
               <Box
@@ -400,7 +407,7 @@ export default function HeroSlideshow() {
             </>
           ) : (
             <>
-              {!captionless && (
+              {useHeavyCaptionScrim ? (
                 <>
                   <Box
                     aria-hidden
@@ -408,7 +415,7 @@ export default function HeroSlideshow() {
                       position: 'absolute',
                       inset: 0,
                       background:
-                        'linear-gradient(135deg, rgba(17,17,17,0.72) 0%, rgba(17,17,17,0.3) 60%, rgba(17,17,17,0.15) 100%)',
+                        'linear-gradient(135deg, rgba(17,17,17,0.4) 0%, rgba(17,17,17,0.16) 58%, rgba(17,17,17,0.05) 100%)',
                     }}
                   />
                   <Box
@@ -416,18 +423,17 @@ export default function HeroSlideshow() {
                     sx={{
                       position: 'absolute',
                       inset: 0,
-                      background: 'linear-gradient(to top, rgba(17,17,17,0.55) 0%, transparent 45%)',
+                      background: 'linear-gradient(to top, rgba(17,17,17,0.38) 0%, transparent 48%)',
                     }}
                   />
                 </>
-              )}
-              {captionless ? (
+              ) : !isPromoSlide ? (
                 <Box
                   aria-hidden
                   sx={{
                     position: 'absolute',
                     inset: 0,
-                    background: 'linear-gradient(to top, rgba(17,17,17,0.22) 0%, transparent 42%)',
+                    background: 'linear-gradient(to top, rgba(17,17,17,0.14) 0%, transparent 44%)',
                   }}
                 />
               ) : null}
@@ -445,38 +451,42 @@ export default function HeroSlideshow() {
                     overflow: 'hidden',
                   }}
                 >
-                  <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
-                    <Typography
-                      variant="overline"
-                      sx={{
-                        display: 'block',
-                        color: 'rgba(200,164,106,0.9)',
-                        fontSize: '0.65rem',
-                        letterSpacing: '0.28em',
-                        mb: 1.5,
-                      }}
-                    >
-                      {slide.location}
-                    </Typography>
-                  </motion.div>
-
-                  <Box sx={{ overflow: 'hidden' }}>
-                    <motion.div variants={captionVariants} initial="enter" animate="center" exit="exit">
+                  {'location' in slide && slide.location?.trim() ? (
+                    <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
                       <Typography
-                        variant="h1"
+                        variant="overline"
                         sx={{
-                          fontSize: { xs: '2.4rem', sm: '3.5rem', md: '5rem', lg: '6rem' },
-                          fontWeight: 700,
-                          lineHeight: 1,
-                          mb: 3,
-                          maxWidth: { xs: '100%', md: '65%' },
-                          textShadow: '0 2px 24px rgba(17,17,17,0.4)',
+                          display: 'block',
+                          color: 'rgba(200,164,106,0.9)',
+                          fontSize: '0.65rem',
+                          letterSpacing: '0.28em',
+                          mb: 1.5,
                         }}
                       >
-                        {slide.title}
+                        {slide.location.trim()}
                       </Typography>
                     </motion.div>
-                  </Box>
+                  ) : null}
+
+                  {'title' in slide && slide.title?.trim() ? (
+                    <Box sx={{ overflow: 'hidden' }}>
+                      <motion.div variants={captionVariants} initial="enter" animate="center" exit="exit">
+                        <Typography
+                          variant="h1"
+                          sx={{
+                            fontSize: { xs: '2.4rem', sm: '3.5rem', md: '5rem', lg: '6rem' },
+                            fontWeight: 700,
+                            lineHeight: 1,
+                            mb: 3,
+                            maxWidth: { xs: '100%', md: '65%' },
+                            textShadow: '0 2px 24px rgba(17,17,17,0.4)',
+                          }}
+                        >
+                          {slide.title.trim()}
+                        </Typography>
+                      </motion.div>
+                    </Box>
+                  ) : null}
 
                   <motion.div variants={subVariants} initial="enter" animate="center" exit="exit">
                     <Link href={`/portfolio/${slide.slug}`} style={{ display: 'inline-block' }}>

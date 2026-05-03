@@ -41,7 +41,7 @@ export const hotcIntro = {
   lead:
     'Considered among the new wave of modern wedding photography in India, Photopitaraa has spent years building photographs and films that feel timeless — etched in memory long after the last song.',
   awards:
-    'Recognised for editorial storytelling and featured across leading wedding journals. We travel for love stories — from Bandra terraces to palace courtyards.',
+    'Recognised for editorial storytelling and featured across leading wedding journals. We travel for love stories — from our home in Indore to palace courtyards across India.',
 };
 
 export const hotcBlogTeaser = {

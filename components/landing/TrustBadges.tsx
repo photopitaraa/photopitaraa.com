@@ -23,7 +23,7 @@ export default function TrustBadges() {
       sx={{
         py: { xs: 3, md: 4 },
         borderBlock: '1px solid rgba(2,48,71,0.08)',
-        bgcolor: '#fff',
+        bgcolor: 'background.paper',
       }}
     >
       <Container maxWidth="lg">

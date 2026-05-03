@@ -16,7 +16,7 @@ export default function ServicesPreview() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ backgroundColor: '#fff' }}>
+    <Box component="section" py={{ xs: 10, md: 14 }} sx={{ bgcolor: 'background.default' }}>
       <Container maxWidth="xl">
         <SectionHeading
           eyebrow="What We Do"
@@ -44,7 +44,7 @@ export default function ServicesPreview() {
                           border: '1px solid rgba(255,183,3,0.2)',
                           borderRadius: '6px',
                           overflow: 'hidden',
-                          backgroundColor: '#fff',
+                          bgcolor: 'background.paper',
                           transition: 'box-shadow 0.35s ease, transform 0.35s ease',
                           '&:hover': {
                             boxShadow: '0 16px 48px rgba(2,48,71,0.1)',

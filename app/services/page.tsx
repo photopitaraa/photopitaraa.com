@@ -125,7 +125,7 @@ export default function ServicesPage() {
       </Box>
 
       {/* Services list */}
-      <Box sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           {services.map((service, i) => (
             <ServiceCard key={service.slug} service={service} reverse={i % 2 !== 0} />
@@ -134,7 +134,7 @@ export default function ServicesPage() {
       </Box>
 
       {/* Quick nav cards */}
-      <Box py={{ xs: 8, md: 10 }} sx={{ backgroundColor: '#FAF8F5' }}>
+      <Box py={{ xs: 8, md: 10 }} sx={{ bgcolor: 'background.default' }}>
         <Container maxWidth="xl">
           <SectionHeading
             eyebrow="Quick Enquiry"
